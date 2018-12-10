@@ -1,0 +1,57 @@
+			.bgw {
+    background-color: #fff;
+    border: 1px solid #eaeaea;
+    border-width: 1px 0;
+    overflow: hidden;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+.comment li {
+    line-height: 1rem;
+    color: #333;
+    border-bottom: 1px solid #eaeaea;
+    padding: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.comment .ov {
+    line-height: 1.5rem;
+    margin-bottom: 6px;
+    color: #999;
+}
+
+.comment .omg {
+    border-radius: 45px;
+    margin-right: 10px;
+    width: 1.2rem;
+    height: 1.2rem;
+}
+th, em, i {
+    font-style: normal;
+    font-weight: normal;
+}
+.vip {
+    height: 12px;
+    line-height: 12px;
+    border-radius: 4px;
+    display: inline-block;
+    border: 1px solid #c1a75f;
+    color: #c1a75f;
+    font-size: 10px;
+    padding: 0 3px;
+    margin: 0 0 0 5px;
+}
+.f14 {
+    font-size: 0.7rem;
+}
+	
+	.comment .right {
+    font-size: 0.5rem;
+}
+.right {
+    float: right;
+}	

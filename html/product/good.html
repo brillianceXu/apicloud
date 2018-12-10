@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+	<style type="text/css" ></style>
+	<head>
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" type="text/css" href="../../css/public.css">
+		<link rel="stylesheet" type="text/css" href="../../css/goods.css">
+		<link rel="stylesheet" type="text/css" href="../../css/aui21.css">
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../script/jquery.fly.min.js"></script>
+		<script type="text/javascript" src="../../js/TouchSlide.1.1.js"></script>
+		<script type="text/javascript" src="../../js/touchslider.dev.js"></script>
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../script/goods.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+	</head>
+	<body style="cursor: auto;">
+		<div id = 'goodsbody'>
+			<div style="width:30%;margin:0 auto;padding-top: 200px">
+				<img width = '120px' src="../../images/loading.gif" />
+			</div>
+		</div>
+	</body>
+	<script>
+		apiready = function() {
+			api.parseTapmode();
+			//_showProgress();
+			getgoods();
+			_setRefreshHeaderInfo(function(ret, err) {
+				getgoods();
+			})
+		}
+		function opencart() {
+			_openWin('cart', '../cart/cart_win.html');
+		}
+
+		function openQQ(qq) {
+			var systemType = api.systemType;
+			api.openApp({
+				iosUrl : "mqq://im/chat?chat_type=wpa&uin="+qq+"&version=1&src_type=web",
+				uri : "mqqwpa://im/chat?chat_type=wpa&uin="+qq
+			}, function(ret, err) {
+			
+				 if(ret){
+                    }else{
+                        
+                        alert("启动失败，未检测到QQ应用");
+                    }			
+			});
+		}
+
+		function getgoods() {
+			//now_time =  Date.parse(new Date());
+			gid = api.pageParam.id;
+			goodsId = gid;
+			_ajax(api_url + "goods.php?id=" + gid, "get", "{}", "json", function(ret) {
+				api.hideProgress();
+				//alert(JSON.stringify(ret.content.goods_name));
+				$api.setStorage('share_goods_name', ret.content.goods_name);
+				if (ret.error == 0) {
+					document.getElementById('goodsbody').innerHTML = ret.content.detail;
+					_executeScript(ret.content.detail);
+					goodsgallery();
+					changePrice();
+					api.refreshHeaderLoadDone();
+				} else {
+					api.alert({
+						title : ret.message,
+					}, function(ret, err) {
+						api.closeWin({
+						});
+					});
+				}
+			});
+		}
+
+		function setIndex(id) {
+			api.setFrameGroupIndex({
+				name : 'good_tab',
+				index : id,
+				scroll : true,
+				reload : false
+			});
+		}
+	</script>
+</html>

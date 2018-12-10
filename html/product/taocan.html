@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+	<style type="text/css" ></style>
+	<head>
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" type="text/css" href="../../css/public.css">
+		<link rel="stylesheet" type="text/css" href="../../css/goods.css">
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../js/TouchSlide.1.1.js"></script>
+		<script type="text/javascript" src="../../js/touchslider.dev.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/lefttime.js"></script>
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>		
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../script/goods.js"></script>
+	</head>
+	<body style="cursor: auto;">
+		<script type="text/javascript">
+			var process_request = "正在处理您的请求...";
+		</script>
+		<script type="text/javascript">
+			/*第一种形式 第二种形式 更换显示样式*/
+			function setGoodsTab(name, cursel, n) {
+				$('html,body').animate({
+					'scrollTop' : 0
+				}, 600);
+				for ( i = 1; i <= n; i++) {
+					var menu = document.getElementById(name + i);
+					var con = document.getElementById("user_" + name + "_" + i);
+					menu.className = i == cursel ? "on" : "";
+					con.style.display = i == cursel ? "block" : "none";
+				}
+			}
+		</script>
+		<div id = 'goodsbody'>
+			<div style="width:30%;margin:0 auto;padding-top: 200px">
+				<img width = '120px' src="../../images/loading.gif" />
+			</div>
+		</div>
+	</body>
+	<script>
+		apiready = function() {
+			api.parseTapmode();
+			//_showProgress();
+			getgoods();
+			_setRefreshHeaderInfo(function(ret, err) {
+				getgoods();
+			})
+		}
+		function opencart() {
+			_openWin('cart', '../cart/cart_win.html');
+		}
+
+		function getgoods() {
+			//now_time =  Date.parse(new Date());
+			gid = api.pageParam.id;
+			goodsId = gid;
+			_ajax(api_url + "goods.php?&act=taocan&goods_id=" + gid, "get", "{}", "json", function(ret) {
+				api.hideProgress();
+				//alert(JSON.stringify(ret.content));
+				document.getElementById('goodsbody').innerHTML = ret.content;
+			
+				api.refreshHeaderLoadDone();
+			});
+		}
+	</script>
+</html>

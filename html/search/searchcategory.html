@@ -1,0 +1,148 @@
+﻿<html>
+	<style type="text/css" id="1719653000"></style>
+	<head>
+		<meta charset="utf-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="viewport" content="minimal-ui=yes,width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../css/public.css">
+		<link rel="stylesheet" type="text/css" href="../../css/category.css">
+		<link rel="stylesheet" type="text/css" href="../../css/aui2.css">
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../js/jquery.json.js"></script>
+		<script type="text/javascript" src="../../js/transport.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="application/javascript" src="../../js/jquery.more.js"></script>
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../script/exeinnerjs.js"></script>
+		<script type="text/javascript" src="../../script/goods.js"></script>
+		<script type="text/javascript" src="../../script/category.js"></script>
+		<script type="text/javascript" src="../../script/aui-tab.js"></script>
+	</head>
+	<body>
+		<div style="position: fixed;z-index:9999;left:0;right: 0;top:0;">
+			<div class="aui-tab" id="tab" >
+				<div class="aui-tab-item aui-active">
+					综合
+				</div>
+				<div class="aui-tab-item">
+					销量
+				</div>
+				<div class="aui-tab-item">
+					更新
+				</div>
+				<div class="aui-tab-item">
+					价格
+				</div>
+			</div>
+		</div>
+		<div id = "categorylist" style="margin-top:50px;" ></div>
+		<script type="text/javascript" src="../../js/zepto.min.js"></script>
+		<script type="text/javascript" src="../../js/filter.min.js"></script>
+		<script>
+			apiready = function() {
+				formdata = api.pageParam.formdata;
+				amount = 1;
+				$api.setStorage('searchpage', 1);
+				ajax_getsearchlist('goods_id');
+				inittab();
+				api.addEventListener({
+					name : 'scrolltobottom'
+				}, function(ret, err) {
+					var page = $api.getStorage('searchpage');
+					ajax_getsearchlist();
+				});
+			}
+			function ajax_getsearchlist(sort) {
+				page = parseInt($api.getStorage('searchpage'));
+				var data = formdata + '&category=0&brand=0&sort=' + sort + '&order=DESC&min_price=0&' + 'max_price=0&action=&intro=&goods_type=0&sc_ds=0&outstock=0&page=' + page;
+				_showProgress();
+				//alert(data);
+				_ajax(api_url + "search.php?" + data, "get", {
+				}, "json", function(ret) {
+					api.hideProgress();
+					if (ret.content == '') {
+						_toast('没有更多产品！');
+					} else {
+						$("#categorylist").append(ret.content);
+						$api.setStorage('searchpage', page + 1);
+					}
+					api.refreshHeaderLoadDone();
+				});
+			}
+
+			function ajax_getproductlist(amount, sort) {
+				last = $api.getStorage('categorylast')
+				var data = {
+					'act' : 'ajax',
+					'last' : last,
+					'amount' : amount,
+					'id' : cid,
+					'sort' : sort
+				};
+				_showProgress();
+				_ajax(api_url + "category.php", "post", {
+					'values' : data
+				}, "json", function(ret) {
+					if (ret.content == '') {
+						api.hideProgress();
+						_toast('没有更多产品！');
+					} else {
+						$.each(ret.content, function(i, item) {//alert(item.info);
+							$('#categorylist').append(item.info);
+						})
+						$api.setStorage('categorylast', last + amount);
+					}
+					api.hideProgress();
+					api.refreshHeaderLoadDone();
+				});
+			}
+
+			function inittab() {
+				var tab = new auiTab({
+					element : document.getElementById("tab"),
+					// callback:function(o,dom){
+					//     console.log(o);
+					// }
+				}, function(ret) {
+					//_alert(ret);
+					if (ret.index == 1) {
+						$api.setStorage('sort', 'goods_id');
+					}
+					if (ret.index == 2) {
+						$api.setStorage('sort', 'salenum');
+					}
+					if (ret.index == 3) {
+						$api.setStorage('sort', 'last_update');
+					}
+					if (ret.index == 4) {
+						$api.setStorage('sort', 'final_price');
+					}
+					sort = $api.getStorage('sort');
+					$api.setStorage('searchpage', 1);
+					$('#categorylist').html('');
+					ajax_getsearchlist(sort);
+				});
+			}
+		</script>
+		<script>
+			function openGood(gid) {
+				//alert(gid);
+				api.openWin({
+					name : 'good',
+					url : 'good_win.html',
+					pageParam : {
+						id : gid
+					}
+				});
+			}
+		</script>
+		<script type="Text/Javascript" language="JavaScript">
+			function selectPage(sel) {
+				sel.form.submit();
+			}
+		</script>
+	</body>
+</html>

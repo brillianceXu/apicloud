@@ -1,0 +1,717 @@
+<!DOCTYPE html >
+<html>
+	<head>
+		<meta name="Generator" content="ECSHOP v2.7.3" />
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title>购物流程_趣购商城 </title>
+		<meta name="Keywords" content="" />
+		<meta name="Description" content="" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+		<link rel="stylesheet" href="themesmobile/ahxcgg_mobile/css/public.css">
+		<link rel="stylesheet" href="themesmobile/ahxcgg_mobile/css/flow.css">
+		<link rel="stylesheet" href="themesmobile/ahxcgg_mobile/css/style_jm.css">
+		<script type="text/javascript" src="themesmobile/ahxcgg_mobile/js/jquery.js"></script>
+		<script type="text/javascript" src="themesmobile/ahxcgg_mobile/js/ecsmart.js"></script>
+		<script type="text/javascript" src="js/jquery.json.js"></script><script type="text/javascript" src="js/transport.js"></script><script type="text/javascript" src="js/common.js"></script><script type="text/javascript" src="js/utils.js"></script><script type="text/javascript" src="js/shopping_flow.js"></script>
+	</head>
+	<body style="background:#e5e5e5;">
+		<div id="popup_window" style="background:#EFEFF4;box-shadow: 0 0 10px #ccc;border: 1px solid #ccc;border-radius: 6px;width:85%;height:auto;margin-left:-43%;margin-top:-20%;left:50%;top:50%;position:fixed;display:none;z-index:9999;">
+			<label class="yezf_tit" style="float:left;margin:15px;width: 91%;text-align: center;"><span>请输入余额支付密码</span> </label>
+			<input id="surplus_password_input" type="password" style='float:left;margin:10px 3%;width:91%;background-color:white;height:30px;border: 1px solid #ccc;padding-left: 6px;'/>
+			<span class="flow_tank">
+				<input class='yezf_QRB tankuang' type="button" onclick="end_input_surplus()"  value="确定" />
+			</span>
+			<span class="flow_tank">
+				<input class='yezf_QXB tankuang' type="button" onclick="cancel_input_surplus()" value="取消" />
+			</span>
+		</div>
+		<div class="tab_nav">
+			<div class="header" style=" position:relative">
+				<div class="h-left">
+					<a class="sb-back" href="javascript:history.back(-1)" title="返回"></a>
+				</div>
+				<div class="h-mid">
+					购物车
+				</div>
+			</div>
+			<dl>
+				<dd class="top_bar" style=" position:absolute; top:0; right:2%; z-index:999999">
+					<div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more">
+						<a href="javascript:;"></a>
+					</div>
+				</dd>
+			</dl>
+		</div>
+		<script type="text/javascript" src="themesmobile/ahxcgg_mobile/js/mobile.js" ></script>
+		<div class="goods_nav hid" id="menu">
+			<div class="Triangle">
+				<h2></h2>
+			</div>
+			<ul>
+				<li>
+					<a href="index.php"><span class="menu1"></span><i>首页</i></a>
+				</li>
+				<li>
+					<a href="catalog.php"><span class="menu2"></span><i>分类</i></a>
+				</li>
+				<li>
+					<a href="flow.php"><span class="menu3"></span><i>购物车</i></a>
+				</li>
+				<li style=" border:0;">
+					<a href="user.php"><span class="menu4"></span><i>我的</i></a>
+				</li>
+			</ul>
+		</div>
+		<form id="formCart" name="formCart" method="post" action="flow.php">
+			<div class="folw_shopmain">
+				<div class="shopmain_title">
+					<dl>
+						<input type="checkbox" autocomplete="off"  checked=checked class="f_checkbox f_pub_checkbox f_pub_checkbox_1" title="1" style=" margin-top:10px; margin-left:10px;">
+						<dt>
+							<input type="hidden" name="supplierid" id="supplierid" value="0">
+							<a class="shopLink eclipse" href="supplier.php?suppId=0">网站自营</a>
+						</dt>
+						<dd>
+							<a class="shopLink edit_btn" href="javascript:void(0)" name="1">编辑</a>
+						</dd>
+					</dl>
+				</div>
+				<div class="item-list">
+					<div class="inner">
+						<input type="checkbox" autocomplete="off" name="sel_cartgoods[]" value="1622"
+						id="sel_cartgoods_1622" checked=checked
+						class="f_checkbox check-wrapper check-wrapper-1">
+						<div class="item_img">
+							<a href="goods.php?id=360"> <img src="./../images/201702/thumb_img/_thumb_P_1487418985816.jpg"></a>
+						</div>
+						<div class="goods_desc edit_info_1" >
+							<dl>
+								<dt>
+									性感大码古典透视成人情趣内衣极度诱惑套装开衩旗袍制服女骚7930
+								</dt>
+							</dl>
+							<div class="price">
+								<span>99.00</span><i>118.80</i><em id="goods_numx_1622">x12</span>
+							</div>
+						</div>
+						<div class="num edit_box_1" style="display:none;">
+							<div class="qiehuan">
+								<div class="xm-input-number">
+									<a href="javascript:;" onclick="minus_num(1622, 360, 0,0);" id="jiannum1622" class="input-sub active" ></a>
+									<input type="text" onKeyDown='if(event.keyCode == 13) event.returnValue = false' name="goods_number[1622]" id="goods_number_1622" value="12"  class="input-num"  onblur="change_price(1622, 360, 0)"/>
+									<input type="hidden" id="hidden_1622" value="12">
+									<a href="javascript:;" onclick='javascript:add_num(1622, 360, 0,0)'  class="input-add"></a>
+								</div>
+							</div>
+							<div class="delete">
+								<a href="javascript:if (confirm('您确实要把该商品移出购物车吗？')) location.href='flow.php?step=drop_goods&amp;id=1622';"> 删除 </a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="flow_activity">
+					<a href="activity.php"> <h2 id='discount_0'><span>根据优惠活动 : [自营商品]满1000打9折,嗨翻全场
+						<br/>
+						您可以享受折扣 <font color=red>118.80</font> 元</span></h2></a>
+					<h3 onclick="choose_gift(0)">选择赠品</h3>
+				</div>
+			</div>
+			<div style=" height:50px"></div>
+			<div class="flow_bottom">
+				<input type="hidden" name="step" value="update_cart">
+				<div class="quanxuan">
+					<div class="check-wrapper">
+						<span  class="cart-checkbox1 checked" onclick="return chkAll_onclick()"></span><span class="cart-checktext">全选</span>
+					</div>
+				</div>
+				<div class="info">
+					<span class="hot" id="cart_amount_desc"><em>总计：</em>1188.00</span>
+				</div>
+				<div class="right">
+					<input type="button" href="javascript:void();"  onclick="return selcart_submit();" class="xm-button " value="去结算">
+				</div>
+			</div>
+		</form>
+		<script type="text/javascript" charset="utf-8">
+			$(".inner .cart-checkbox").click(function() {
+				if ($(this).hasClass('checked')) {
+					$(this).removeClass('checked');
+					$(this).find('input').attr('checked', false);
+				} else {
+					$(this).addClass('checked');
+					$(this).find('input').attr('checked', true);
+				}
+				if ($(".inner .cart-checkbox") == true) {
+					$('.quanxuan .cart-checkbox').addClass('checked');
+				} else {
+					$('.quanxuan .cart-checkbox').removeClass('checked');
+				}
+				var is_checked = true;
+				$('.inner .cart-checkbox').each(function() {
+					if (!$(this).hasClass('checked')) {
+						is_checked = false;
+						return false;
+					}
+				});
+				if (is_checked) {
+					$('.quanxuan .cart-checkbox').addClass('checked');
+				} else {
+					$('.quanxuan .cart-checkbox').removeClass('checked');
+				}
+				select_cart_goods();
+			});
+			function chkAll_onclick() {
+				var is_checked = false;
+				if ($('.quanxuan .cart-checkbox').hasClass('checked')) {
+					$('.quanxuan .cart-checkbox').removeClass('checked');
+					$('.inner .cart-checkbox').removeClass('checked');
+					is_checked = false;
+				} else {
+					$('.quanxuan .cart-checkbox').addClass('checked');
+					$('.inner .cart-checkbox').addClass('checked');
+					is_checked = true;
+				}
+				for (var i = 0; i < document.formCart.elements.length; i++) {
+					var e = document.formCart.elements[i];
+					e.checked = is_checked;
+				}
+				select_cart_goods();
+			}
+
+			function select_cart_goods() {
+				var sel_goods = new Array();
+				var obj_cartgoods = document.getElementsByName("sel_cartgoods[]");
+				var j = 0;
+				for ( i = 0; i < obj_cartgoods.length; i++) {
+					if (obj_cartgoods[i].checked == true) {
+						sel_goods[j] = obj_cartgoods[i].value;
+						j++;
+					}
+				}
+				Ajax.call('flow.php', 'act=selcart&sel_goods=' + sel_goods, selcartResponse, 'GET', 'JSON');
+			}
+
+			function selcartResponse(res) {
+				if (res.result == '请选择要结算的商品！') {
+					$('.xm-button').addClass('to_cart');
+					$('.xm-button').attr('disable');
+				} else {
+					$('.xm-button').removeClass('to_cart');
+					$('.xm-button').removeAttr('disable');
+				}
+				if (res.err_msg.length > 0) {
+					alert(res.err_msg);
+				} else {
+					document.getElementById('cart_amount_desc').innerHTML = res.result;
+				}
+			}
+
+			function selcart_submit() {
+				var obj_cartgoods = document.getElementsByName("sel_cartgoods[]");
+				var j = 0;
+				for ( i = 0; i < obj_cartgoods.length; i++) {
+					if (obj_cartgoods[i].checked == true) {
+						j++;
+					}
+				}
+				if (j > 0) {
+					document.formCart.action = 'flow.php?step=checkout';
+					document.formCart.elements['step'].value = 'checkout';
+					document.formCart.submit();
+					return true;
+				} else {
+					alert('请选择要结算的商品！');
+					return false;
+				}
+			}
+		</script>
+		<script>
+			function add_num(rec_id, goods_id, supp_id, is_package) {
+				var sel_goods = new Array();
+				var obj_cartgoods = document.getElementsByName("sel_cartgoods[]");
+				var j = 0;
+				for ( i = 0; i < obj_cartgoods.length; i++) {
+					if (obj_cartgoods[i].checked == true) {
+						sel_goods[j] = obj_cartgoods[i].value;
+						j++;
+					}
+				}
+				document.getElementById("goods_number_" + rec_id + "").value++;
+				if (document.getElementById("goods_number_" + rec_id + "").value > 1) {
+					document.getElementById("jiannum" + rec_id).className = 'input-sub active';
+				} else {
+					document.getElementById("jiannum" + rec_id).className = 'input-sub';
+				}
+				var number = document.getElementById("goods_number_" + rec_id + "").value;
+				Ajax.call('flow.php', 'step=update_group_cart&sel_goods=' + sel_goods + '&rec_id=' + rec_id + '&number=' + number + '&goods_id=' + goods_id + '&suppid=' + supp_id + '&is_package=' + is_package, changeNumResponse, 'GET', 'JSON');
+			}
+
+			function minus_num(rec_id, goods_id, supp_id, is_package) {
+				var sel_goods = new Array();
+				var obj_cartgoods = document.getElementsByName("sel_cartgoods[]");
+				var j = 0;
+				for ( i = 0; i < obj_cartgoods.length; i++) {
+					if (obj_cartgoods[i].checked == true) {
+						sel_goods[j] = obj_cartgoods[i].value;
+						j++;
+					}
+				}
+				if (document.getElementById("goods_number_" + rec_id + "").value > 1) {
+					document.getElementById("goods_number_" + rec_id + "").value--;
+					if (document.getElementById("goods_number_" + rec_id + "").value > 1) {
+						document.getElementById("jiannum" + rec_id).className = 'input-sub active';
+					} else {
+						document.getElementById("jiannum" + rec_id).className = 'input-sub';
+					}
+				}
+				var number = document.getElementById("goods_number_" + rec_id + "").value;
+				Ajax.call('flow.php', 'step=update_group_cart&sel_goods=' + sel_goods + '&rec_id=' + rec_id + '&number=' + number + '&goods_id=' + goods_id + '&suppid=' + supp_id + '&is_package=' + is_package, changeNumResponse, 'GET', 'JSON');
+			}
+
+			function change_price(rec_id, goods_id) {
+				var r = /^[1-9]+[0-9]*]*$/;
+				var number = document.getElementById("goods_number_" + rec_id + "").value;
+				if (!r.test(number)) {
+					alert("您输入的格式不正确！");
+					document.getElementById("goods_number_" + rec_id + "").value = document.getElementById("hidden_" + rec_id + "").value;
+				} else {
+					Ajax.call('flow.php', 'step=update_group_cart&rec_id=' + rec_id + '&number=' + number + '&goods_id=' + goods_id, changeNumResponse, 'GET', 'JSON');
+				}
+			}
+
+			function changeNumResponse(result) {
+				if (result.error == 1) {
+					alert(result.content);
+					document.getElementById("goods_number_" + result.rec_id + "").value = result.number;
+					document.getElementById("hidden_" + result.rec_id + "").value = result.number;
+				} else if (result.error == 888) {
+					alert(result.message);
+					document.getElementById("goods_number_" + result.rec_id + "").value = result.number;
+					document.getElementById("hidden_" + result.rec_id + "").value = result.number;
+				} else {
+					document.getElementById("hidden_" + result.rec_id + "").value = result.number;
+					document.getElementById('cart_amount_desc').innerHTML = result.cart_amount_desc;
+					//购物车商品总价说明
+					show_div_text = "恭喜您！ 商品数量修改成功！ ";
+					document.getElementById("goods_numx_" + result.rec_id + "").innerHTML = 'x' + result.number;
+				}
+			}
+		</script>
+		<section class="f_mask" style="display: none;"></section>
+		<section class="f_block" id="choose" style="height:0px;"></section>
+		<section class="f_block" id="choose_attr" style="height:0; overflow:hidden;"></section>
+		<script type="text/javascript">
+			function closeCustomer() {
+				$("#choose").hide();
+			}
+
+			function choose_gift(suppid) {
+				var sel_goods = new Array();
+				var obj_cartgoods = document.getElementsByName("sel_cartgoods[]");
+				var j = 0;
+				for ( i = 0; i < obj_cartgoods.length; i++) {
+					//if(obj_cartgoods[i].checked == true)
+					{
+						sel_goods[j] = obj_cartgoods[i].value;
+						j++;
+					}
+				}
+				Ajax.call('flow.php', 'is_ajax=1&suppid=' + suppid + '&sel_goods=' + sel_goods, selgiftResponse, 'GET', 'JSON');
+			}
+
+			function selgiftResponse(res) {
+				$('#choose').html(res.result);
+				$("#choose").animate({
+					height : '80%'
+				}, [10000]);
+				var total = 0, h = $(window).height(), top = $('.f_title').height() || 0, con = $('.f_content');
+				total = 0.8 * h;
+				con.height(total - top + 'px');
+				$(".f_mask").show();
+			}
+
+			function close_choose() {
+				$(".f_mask").hide();
+				$('#choose').animate({
+					height : '0'
+				}, [10000]);
+			}
+
+			function choose_attr(rec_id) {
+				Ajax.call('flow.php?is_ajax=1&step=show_choose_attr', 'rec_id=' + rec_id, show_choose_attr, 'GET', 'JSON');
+			}
+
+			function show_choose_attr(result) {
+				$("#choose_attr").animate({
+					height : '80%'
+				}, [10000]);
+				$("#choose_attr").html(result);
+				var total = 0, h = $(window).height(), top = $('.f_title_attr').height() || 0, con = $('.f_content_attr');
+				total = 0.8 * h;
+				con.height(total - top + 'px');
+				$(".f_mask").show();
+				changePrice();
+			}
+
+			function close_choose_attr() {
+				$(".f_mask").hide();
+				$('#choose_attr').animate({
+					height : '0'
+				}, [10000]);
+			}
+
+			function changeAtt(t) {
+				t.lastChild.checked = 'checked';
+				for (var i = 0; i < t.parentNode.childNodes.length; i++) {
+					if (t.parentNode.childNodes[i].className == 'hover') {
+						t.parentNode.childNodes[i].className = '';
+						t.childNodes[0].checked = "checked";
+					}
+				}
+				t.className = "hover";
+				changePrice();
+			}
+
+			/**
+			 * 点选可选属性或改变数量时修改商品价格的函数
+			 */
+			function changePrice() {
+				var goodsId = document.getElementById('goods_id').value;
+				var attr = getSelectedAttributes(document.forms['formCart']);
+				var qty = document.getElementById('cart_goods_number').value;
+				Ajax.call('goods.php', 'act=price&id=' + goodsId + '&attr=' + attr + '&number=' + qty, changePriceResponse, 'GET', 'JSON');
+			}
+
+			/**
+			 * 接收返回的信息
+			 */
+			function changePriceResponse(res) {
+				if (res.err_msg.length > 0) {
+					alert(res.err_msg);
+				} else {
+					if (document.getElementById('ECS_GOODS_AMOUNT')) {
+						document.getElementById('ECS_GOODS_AMOUNT').innerHTML = res.result;
+					}
+					if (document.getElementById('ECS_GOODS_NUMBER')) {
+						document.getElementById('ECS_GOODS_NUMBER').innerHTML = res.goods_attr_number;
+					}
+					if (document.getElementById('ECS_GOODS_AMOUNT_JF')) {
+						document.getElementById('ECS_GOODS_AMOUNT_JF').innerHTML = res.result_jf;
+					}
+					if (document.getElementById('ECS_GOODS_AMOUNT_CHOOSE')) {
+						document.getElementById('ECS_GOODS_AMOUNT_CHOOSE').innerHTML = res.result;
+					}
+					if (document.getElementById('ECS_GOODS_ATTR_THUMB')) {
+						document.getElementById('ECS_GOODS_ATTR_THUMB').src = res.goods_attr_thumb;
+					}
+					if (document.getElementById('ECS_GOODS_ATTR')) {
+						document.getElementById('ECS_GOODS_ATTR').innerHTML = res.goods_attr;
+					}
+				}
+			}
+		</script>
+		<script type="text/javascript" charset="utf-8">
+			function editCartGoods(rec_id) {
+				var goodsId = document.getElementById('goods_id').value;
+				var attr = getSelectedAttributes(document.forms['formCart']);
+				var qty = document.getElementById('cart_goods_number').value;
+				Ajax.call('flow.php?is_ajax=1&step=edit_cart_goods', 'rec_id=' + rec_id + '&goods_id=' + goodsId + '&attr=' + attr + '&number=' + qty, editCartGoodsResponse, 'GET', 'JSON');
+			}
+
+			function editCartGoodsResponse(result) {
+				if (result.err != 0) {
+					alert(result.err);
+				} else {
+					window.location.href = "flow.php?step=cart";
+				}
+			}
+		</script>
+		<script type="text/javascript" charset="utf-8">
+			$(".inner .f_checkbox").click(function() {
+				pub = $(this).attr("title");
+				if ($(this).attr("checked") == "checked") {
+					var is_checked_2 = true;
+					$('.check-wrapper-' + pub).each(function() {
+						if ($(this).attr("checked") != "checked") {
+							is_checked_2 = false;
+							return false;
+						}
+					});
+					if (is_checked_2) {
+						$('.f_pub_checkbox_' + pub).attr("checked", 'checked');
+					} else {
+						$('.f_pub_checkbox_' + pub).removeAttr("checked", 'checked');
+					}
+				} else {
+					$('.f_pub_checkbox_' + pub).removeAttr("checked");
+				}
+				var is_checked = true;
+				$('.f_checkbox').each(function() {
+					if ($(this).attr("checked") != "checked") {
+						is_checked = false;
+						return false;
+					}
+				});
+				if (is_checked) {
+					$('.quanxuan .cart-checkbox1').addClass('checked');
+				} else {
+					$('.quanxuan .cart-checkbox1').removeClass('checked');
+				}
+				select_cart_goods();
+			});
+			$(".f_pub_checkbox").click(function() {
+				pub = $(this).attr("title");
+				var is_checked = false;
+				if ($(this).attr("checked") == 'checked') {
+					$(this).attr("checked", "checked");
+					$(this).parent().parent().parent().find('.check-wrapper-' + pub).attr('checked', 'checked');
+					is_checked = true;
+				} else {
+					$(this).parent().parent().parent().find('.check-wrapper-' + pub).removeAttr("checked");
+					is_checked = false;
+				}
+				$('.f_checkbox').each(function() {
+					if ($(this).attr("checked") != "checked") {
+						is_checked = false;
+						return false;
+					}
+				});
+				if (is_checked) {
+					$('.quanxuan .cart-checkbox1').addClass('checked');
+				} else {
+					$('.quanxuan .cart-checkbox1').removeClass('checked');
+				}
+				select_cart_goods();
+			})
+			function chkAll_onclick() {
+				var is_checked = false;
+				if ($('.quanxuan .cart-checkbox1').hasClass('checked')) {
+					$('.quanxuan .cart-checkbox1').removeClass('checked');
+					$('.inner .f_checkbox').removeAttr("checked");
+					is_checked = false;
+				} else {
+					$('.quanxuan .cart-checkbox1').addClass('checked');
+					$('.inner .f_checkbox').attr("checked", "checked");
+					is_checked = true;
+				}
+				for (var i = 0; i < document.formCart.elements.length; i++) {
+					var e = document.formCart.elements[i];
+					e.checked = is_checked;
+				}
+				select_cart_goods();
+			}
+
+			function select_cart_goods() {
+				var sel_goods = new Array();
+				var obj_cartgoods = document.getElementsByName("sel_cartgoods[]");
+				var j = 0;
+				for ( i = 0; i < obj_cartgoods.length; i++) {
+					if (obj_cartgoods[i].checked == true) {
+						sel_goods[j] = obj_cartgoods[i].value;
+						j++;
+					}
+				}
+				Ajax.call('flow.php', 'act=selcart&sel_goods=' + sel_goods, selcartResponse, 'GET', 'JSON');
+			}
+
+			function selcartResponse(res) {
+				if (res.result == '请选择要结算的商品！') {
+					$('.xm-button').addClass('to_cart');
+					$('.xm-button').attr('disable');
+				} else {
+					$('.xm-button').removeClass('to_cart');
+					$('.xm-button').removeAttr('disable');
+				}
+				if (res.err_msg.length > 0) {
+					alert(res.err_msg);
+				} else {
+					document.getElementById('cart_amount_desc').innerHTML = res.result;
+				}
+			}
+
+			function selcart_submit() {
+				var obj_cartgoods = document.getElementsByName("sel_cartgoods[]");
+				var j = 0;
+				for ( i = 0; i < obj_cartgoods.length; i++) {
+					if (obj_cartgoods[i].checked == true) {
+						j++;
+					}
+				}
+				if (j > 0) {
+					document.formCart.action = 'flow.php?step=checkout';
+					document.formCart.elements['step'].value = 'checkout';
+					document.formCart.submit();
+					return true;
+				} else {
+					alert('请选择要结算的商品！');
+					return false;
+				}
+			}
+		</script>
+		<script>
+			$('.edit_btn').bind('click', function() {
+				if ($(this).html() == "编辑") {
+					num = $(this).attr("name");
+					$(".edit_box_" + num).show();
+					$(".edit_info_" + num).hide();
+					$(this).html("完成");
+				} else {
+					num = $(this).attr("name");
+					$(".edit_box_" + num).hide();
+					$(".edit_info_" + num).show();
+					$(this).html("编辑");
+				}
+			});
+		</script>
+		<script type="text/javascript">
+			function showCheckoutOther(obj) {
+				var otherParent = obj.parentNode;
+				otherParent.className = (otherParent.className == 'checkout_other') ? 'checkout_other2' : 'checkout_other';
+				var spanzi = obj.getElementsByTagName('span')[0];
+				spanzi.className = spanzi.className == 'right_arrow_flow' ? 'right_arrow_flow2' : 'right_arrow_flow';
+			}
+		</script>
+		</div> <script type="text/javascript" src="js/order_pickpoint.js"></script>
+		<script type="text/javascript">
+			var process_request = "正在处理您的请求...";
+			var username_empty = "- 用户名不能为空。";
+			var username_shorter = "- 用户名长度不能少于 3 个字符。";
+			var username_invalid = "- 用户名只能是由字母数字以及下划线组成。";
+			var password_empty = "- 登录密码不能为空。";
+			var password_shorter = "- 登录密码不能少于 6 个字符。";
+			var confirm_password_invalid = "- 两次输入密码不一致";
+			var email_empty = "- Email 为空";
+			var email_invalid = "- Email 不是合法的地址";
+			var agreement = "- 您没有接受协议";
+			var msn_invalid = "- msn地址不是一个有效的邮件地址";
+			var qq_invalid = "- QQ号码不是一个有效的号码";
+			var home_phone_invalid = "- 家庭电话不是一个有效号码";
+			var office_phone_invalid = "- 办公电话不是一个有效号码";
+			var mobile_phone_invalid = "- 手机号码不是一个有效号码";
+			var msg_un_blank = "* 用户名不能为空";
+			var msg_un_length = "* 用户名不得超过14个字符";
+			var msg_un_format = "* 用户名含有非法字符";
+			var msg_un_registered = "* 用户名已经存在,请重新输入";
+			var msg_can_rg = "* 可以注册";
+			var msg_email_blank = "* 邮件地址不能为空";
+			var msg_email_registered = "* 邮箱已存在";
+			var msg_email_format = "* 邮件地址不合法";
+			var msg_blank = "不能为空";
+			var no_select_question = "- 您没有完成密码提示问题的操作";
+			var passwd_balnk = "- 密码中不能包含空格";
+			var username_chana = "- 用户名不能有中文。";
+			var msg_uname_length = "- 用户名不能超过 20 个字符。";
+			var msg_un_chine = "* 用户名不能为中文";
+			var msg_mobile_phone_blank = "* 手机号码不能为空";
+			var msg_mobile_phone_registered = "* 手机号码已存在";
+			var msg_mobile_phone_format = "* 手机号码不是一个有效号码";
+			var msg_email_code_blank = "- 邮箱验证码不能为空";
+			var msg_mobile_phone_code_blank = "- 手机验证码不能为空";
+			var msg_captcha_blank = "- 验证码不能为空";
+			var msg_register_type_blank = "- 注册类型不能为空";
+			var username_exist = "用户名 %s 已经存在";
+			var compare_no_goods = "您没有选定任何需要比较的商品或者比较的商品数少于 2 个。";
+			var btn_buy = "购买";
+			var is_cancel = "取消";
+			var select_spe = "请选择商品属性";
+		</script>
+		<script type="text/javascript">
+			function choose_gift(suppid) {
+				var sel_goods = new Array();
+				var obj_cartgoods = document.getElementsByName("sel_cartgoods[]");
+				var j = 0;
+				for ( i = 0; i < obj_cartgoods.length; i++) {
+					//if(obj_cartgoods[i].checked == true)
+					{
+						sel_goods[j] = obj_cartgoods[i].value;
+						j++;
+					}
+				}
+				Ajax.call('flow.php', 'is_ajax=1&suppid=' + suppid + '&sel_goods=' + sel_goods, selgiftResponse, 'GET', 'JSON');
+			}
+
+			function selgiftResponse(res) {
+				$('#choose').html(res.result);
+				$("#choose").animate({
+					height : '80%'
+				}, [10000]);
+				var total = 0, h = $(window).height(), top = $('.f_title').height() || 0, con = $('.f_content');
+				total = 0.8 * h;
+				con.height(total - top + 'px');
+				$(".f_mask").show();
+			}
+
+			function close_choose() {
+				$(".f_mask").hide();
+				$('#choose').animate({
+					height : '0'
+				}, [10000]);
+			}
+		</script>
+		<script type="text/javascript">
+			var process_request = "正在处理您的请求...";
+			var username_empty = "- 用户名不能为空。";
+			var username_shorter = "- 用户名长度不能少于 3 个字符。";
+			var username_invalid = "- 用户名只能是由字母数字以及下划线组成。";
+			var password_empty = "- 登录密码不能为空。";
+			var password_shorter = "- 登录密码不能少于 6 个字符。";
+			var confirm_password_invalid = "- 两次输入密码不一致";
+			var email_empty = "- Email 为空";
+			var email_invalid = "- Email 不是合法的地址";
+			var agreement = "- 您没有接受协议";
+			var msn_invalid = "- msn地址不是一个有效的邮件地址";
+			var qq_invalid = "- QQ号码不是一个有效的号码";
+			var home_phone_invalid = "- 家庭电话不是一个有效号码";
+			var office_phone_invalid = "- 办公电话不是一个有效号码";
+			var mobile_phone_invalid = "- 手机号码不是一个有效号码";
+			var msg_un_blank = "* 用户名不能为空";
+			var msg_un_length = "* 用户名不得超过14个字符";
+			var msg_un_format = "* 用户名含有非法字符";
+			var msg_un_registered = "* 用户名已经存在,请重新输入";
+			var msg_can_rg = "* 可以注册";
+			var msg_email_blank = "* 邮件地址不能为空";
+			var msg_email_registered = "* 邮箱已存在";
+			var msg_email_format = "* 邮件地址不合法";
+			var msg_blank = "不能为空";
+			var no_select_question = "- 您没有完成密码提示问题的操作";
+			var passwd_balnk = "- 密码中不能包含空格";
+			var username_chana = "- 用户名不能有中文。";
+			var msg_uname_length = "- 用户名不能超过 20 个字符。";
+			var msg_un_chine = "* 用户名不能为中文";
+			var msg_mobile_phone_blank = "* 手机号码不能为空";
+			var msg_mobile_phone_registered = "* 手机号码已存在";
+			var msg_mobile_phone_format = "* 手机号码不是一个有效号码";
+			var msg_email_code_blank = "- 邮箱验证码不能为空";
+			var msg_mobile_phone_code_blank = "- 手机验证码不能为空";
+			var msg_captcha_blank = "- 验证码不能为空";
+			var msg_register_type_blank = "- 注册类型不能为空";
+			var username_exist = "用户名 %s 已经存在";
+			var compare_no_goods = "您没有选定任何需要比较的商品或者比较的商品数少于 2 个。";
+			var btn_buy = "购买";
+			var is_cancel = "取消";
+			var select_spe = "请选择商品属性";
+		</script>
+		<script>
+			//点击input标签时间
+			$(function() {
+				$(".order_checked input").click(function() {
+					$(this).parents(".checkout_other2").addClass("checkout_other");
+					$(this).parents(".checkout_other2").removeClass("checkout_other2");
+					$(this).parents(".order_checked").find(".right_arrow_flow2").addClass("right_arrow_flow");
+					$(this).parents(".order_checked").find(".right_arrow_flow2").removeClass("right_arrow_flow2");
+					$(this).parents(".order_checked").find("em").html($(this).next().html());
+					if ($(this).attr("id") == 'definetime_input') {
+						$("#choose_time").animate({
+							height : '80%'
+						}, [10000]);
+						var total = 0, h = $(window).height(), top = $('.f_title_time').height() || 0, con = $('.f_content_time');
+						total = 0.8 * h;
+						con.height(total - top + 'px');
+						$(".f_mask").show();
+					}
+				})
+			});
+		</script>
+	</body>
+</html>

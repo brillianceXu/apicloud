@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>title</title>
+		<link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/aui2.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/iconfont/iconfont.css" />
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/aui-tab.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<style>
+		</style>
+	</head>
+	<body>
+		<!--		<header class="aui-bar aui-bar-nav aui-bar-danger" id="aui-header">
+		<a class="aui-btn aui-btn-danger aui-pull-left" tapmode onclick="api.closeWin();"> <span class="aui-iconfont aui-icon-left"></span> </a>
+		<div class="aui-title" id="header-title">
+		商品详情
+		</div>
+		</header>-->
+		<header class="aui-bar aui-bar-nav aui-bar-danger" id="aui-header">
+			<a class="aui-btn aui-btn-danger aui-pull-left" tapmode onclick="api.closeWin();"> <span class="aui-iconfont aui-icon-left"></span> </a>
+			<div class="aui-title" id="header-title">
+				<div class="aui-bar aui-bar-btn aui-bar-btn-round" id="tab">
+					<!-- <div id= "tab1" class="aui-bar-btn-item aui-active">
+						商品
+					</div>
+					<div id= "tab2" class="aui-bar-btn-item">
+						详情
+					</div>
+					<div id= "tab3" class="aui-bar-btn-item">
+						评价
+					</div> -->
+					<div style="width:100%;line-height:200%;text-align:center;font-size:18px">商品详情</div>
+				</div>
+			</div>
+			<a class="aui-pull-right aui-btn aui-btn-share" tapmode onclick="fnOpen();"> <span class="aui-iconfont aui-icon-share"></span> </a>
+		</header>
+	</body>
+	<script type="text/javascript">
+		var MNActionButton;
+		var wx;
+		var share_url_href;
+
+		apiready = function() {
+			MNActionButton = api.require('MNActionButton');
+			wx = api.require('wx');
+			gid = api.pageParam.id;
+			share_url_href=share_host+'goods.php?id='+gid;
+			var header = $api.byId('aui-header');
+			$api.fixStatusBar(header);
+			var headerPos = $api.offset(header);
+
+			api.openFrameGroup({
+				name : 'good_tab',
+				scrollEnabled : true,
+				rect : {
+					x : 0,
+					y : headerPos.h,
+					w : 'auto',
+					h : api.winHeight - headerPos.h
+				},
+				bounces : false,
+				index : 0,
+				preload : 0,
+				frames : [{
+					name : 'good',
+					url : 'good.html',
+					pageParam : {
+						id : gid
+					}
+				}, {
+					name : 'gooddetail',
+					url : 'gooddetail.html',
+					pageParam : {
+						id : gid
+					},
+				}, {
+					name : 'gcomment',
+					url : 'gcomment.html',
+					pageParam : {
+						id : gid
+					},
+				}]
+			}, function(ret, err) {
+				var index = ret.index;
+				var $tab = $api.byId('tab');
+				var $tabBar = $api.domAll($tab, 'div');
+				//获取tab下div标签
+				for (var j = 0; j < $tabBar.length; j++) {
+					//移除全部active
+					$api.removeCls($tabBar[j], 'aui-active');
+				}
+				if (index == 0) {
+					var $obj = $api.byId('tab1');
+					$api.addCls($obj, 'aui-active');
+				} else if (index == 1) {
+					var $obj = $api.byId('tab2');
+					$api.addCls($obj, 'aui-active');
+				} else if (index == 2) {
+					var $obj = $api.byId('tab3');
+					$api.addCls($obj, 'aui-active');
+				}
+			});
+			inittab();
+			//			api.openFrame({
+			//				name : 'good',
+			//				url : 'good.html',
+			//				pageParam : {
+			//					id : gid
+			//				},
+			//				rect : {
+			//					x : 0,
+			//					y : headerPos.h,
+			//					w : 'auto',
+			//					h : api.winHeight - headerPos.h
+			//				}
+			//			});
+		};
+		function fnOpen() {
+			//alert(share_url_href);
+			MNActionButton.open({
+				layout : {
+					row : 1, //（可选项）数字类型；每屏显示菜单按钮的行数；默认：2
+					col : 5, //（可选项）数字类型；每屏显示菜单按钮的列数；默认：3
+					rowSpacing : 10, //（可选项）数字类型；行与行之间的距离；默认：10
+					colSpacing : 10, //（可选项）数字类型；列与列之间的距离；默认：10
+					offset : 0 //（可选项）数字类型；整个菜单底部距离所属 window 底部的距离，只能为正整数；默认：0
+				},
+				animation : true, //（可选项）布尔类型；弹出和隐藏菜单时是否带弹出动画效果，true|false；默认：true
+				autoHide : true, //（可选项）布尔类型；点击菜单按钮后是否自动隐藏菜单，true|false；默认：true
+				styles : {
+					maskBg : 'rgba(0,0,0,0.2)', //（可选项）字符串类型；遮罩层背景，支持 rgb，rgba，#，img；默认：rgba(0,0,0,0.2)
+					bg : '#fff', //（可选项）字符串类型；菜单有效区域背景，支持 rgb，rgba，#，img；默认：#fff
+					cancelButton : {//（可选项）JSON 对象类型，取消按钮设置
+						size : 44, //（可选项）数字类型；底部取消按钮的高和宽；默认：44
+						bg : '#fff', //（可选项）字符串类型；取消按钮的 100% 宽度的背景，支持rgb，rgba，#，img；默认：'#fff'
+						icon : 'widget://res/iconfont-cancel.png', //（可选项）字符串类型：取消按钮的图标，要求本地路径（widget://、fs://）；默认：默认X型图标
+					},
+					item : {//（可选项）JSON 对象类型，菜单按钮设置
+						titleColor : '#848484', //（可选项）字符串类型；菜单按钮文字颜色，支持 rgb，rgba，#；默认：#848484
+						titleHighlight : 'dd2727', //（可选项）字符串类型；菜单按钮文字高亮颜色，支持 rgb，rgba，#；默认：同 titleColor
+						titleSize : 12,                 //（可选项）数字类型；菜单按钮文字大小，同时也是文字栏所占高度，值为 0 时不显示文字栏；默认：12
+					},
+					indicator : {//（可选项）JSON 对象类型；页标指示器样式，若不传则不显示该指示器
+						color : '#c4c4c4', //（可选项）字符串类型；其它页指示器颜色；支持rgb、rgba、#；默认：'#c4c4c4'
+						highlight : '#9e9e9e' //（可选项）字符串类型；当前页指示器颜色；支持rgb、rgba、#；默认：'#9e9e9e'
+					}
+				},
+				items : [{
+					icon : 'widget://image/iconfont-weixin.png',
+					highlight : 'widget://image/iconfont-weixin.png',
+					title : '微信好友'
+				}, {
+					icon : 'widget://image/iconfont-pengyouquan.png',
+					highlight : 'widget://image/iconfont-pengyouquan.png',
+					title : '朋友圈'
+				}]
+			}, function(ret, err) {
+				var goods_name = $api.getStorage('share_goods_name');
+				if (ret) {
+					if (ret.index == 0) {
+						wx.shareWebpage({
+							apiKey : '',
+							scene : 'session',
+							title :goods_name,
+							description : share_url_href,
+							thumb : 'widget://a.jpg',
+							contentUrl : share_url_href
+						}, function(ret, err) {
+							if (ret.status) {
+								alert('分享成功');
+							} else {
+								//alert(err.code);
+							}
+						});
+					}
+					if (ret.index == 1) {
+						wx.shareWebpage({
+							apiKey : '',
+							scene : 'timeline',
+							title :goods_name,
+							description : share_url_href,
+							thumb : 'widget://a.jpg',
+							contentUrl : share_url_href
+						}, function(ret, err) {
+							if (ret.status) {
+								alert('分享成功');
+							} else {
+								//alert(err.code);
+							}
+						});
+					}
+				} else {
+					//alert(JSON.stringify(err));
+				}
+			});
+		}
+
+		function fnClose() {
+			MNActionButton.close();
+		};
+		function fnHide() {
+			MNActionButton.hide();
+		};
+		function fnShow() {
+			MNActionButton.show();
+		};
+		function inittab() {
+			var bar = document.querySelectorAll(".aui-bar-btn");
+			if (bar) {
+				for (var i = 0; i < bar.length; i++) {
+					var d = bar[i];
+					var tab = new auiTab({
+						element : bar[i],
+						repeatClick : true
+					}, function(ret) {
+						if (ret.index == 1) {
+							api.setFrameGroupIndex({
+								name : 'good_tab',
+								index : 0,
+								scroll : true,
+								reload : false
+							});
+						}
+						if (ret.index == 2) {
+							api.setFrameGroupIndex({
+								name : 'good_tab',
+								index : 1,
+								scroll : true,
+								reload : false
+							});
+						}
+						if (ret.index == 3) {
+							api.setFrameGroupIndex({
+								name : 'good_tab',
+								index : 2,
+								scroll : true,
+								reload : false
+							});
+						}
+					});
+				}
+			}
+		}
+	</script>
+</html>

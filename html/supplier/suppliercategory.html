@@ -1,0 +1,62 @@
+<!DOCTYPE html >
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+		<link rel="stylesheet" href="../../css/public.css">
+
+		<link rel="stylesheet" type="text/css" href="../../store/css/dianpu.css">
+
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../js/ecsmart.js"></script>
+		<script type="text/javascript" src="../../js/jquery.json.js"></script>
+		<script type="text/javascript" src="../../js/transport.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/utils.js"></script>
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		
+		<script type="text/javascript" src="../../script/config.js"></script>
+
+	<body style="background:#e5e5e5;">
+
+
+		<div id ="supplierbody">
+		<div style="width:30%;margin:0 auto;padding-top: 200px">
+		<img width = '120px' src="../../images/loading.gif" />
+		</div>
+		</div>
+		
+		
+	
+		<script type="text/javascript">
+			apiready = function() {
+				api.parseTapmode();
+				//_showProgress();
+				getsupplierbody();
+				_setRefreshHeaderInfo(function(ret, err) {
+					getsupplierbody();
+				})
+			}
+
+			function getsupplierbody() {
+			
+				sid = api.pageParam.sid;
+				
+				//alert(sid);
+				
+				_ajax(api_url + "supplier.php?go=search&suppId="+sid, "post", {					
+				}, "json", function(ret) {
+					//api.hideProgress();
+					//_alert(ret);
+					document.getElementById('supplierbody').innerHTML = ret.content;
+					
+					api.refreshHeaderLoadDone();
+				});
+			}
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" type="text/css" href="../../css/public.css">
+		<link rel="stylesheet" type="text/css" href="../../css/brand_list.css">
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../js/jquery.more.js"></script>
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		<style>
+			.brand-con {
+				background: #fff;
+				margin: 20px 10px;
+			}
+			.brand-con .hot-list:first-child {
+				background: #F6F6F6;
+				font-weight: bold;
+				color: #000;
+				font-size: 14px;
+				padding: 0 10px;
+			}
+			.brand-con .hot-list {
+				display: -webkit-box;
+				border-bottom: #e6e6e6 solid 1px;
+				height: 40px;
+				line-height: 40px;
+				padding: 0 0px;
+			}
+			.brand-con .hot-list a {
+				color: #999;
+				font-size: 14px;
+				text-decoration: none;
+				width: 64%;
+				display: block;
+				text-indent: 5px;
+			}
+			.brand-con .hot-list div.art_name {
+				color: #999;
+				font-size: 13px;
+				text-decoration: none;
+				display: -webkit-box;
+				-webkit-line-clamp: 1;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+				height: 40px;
+				line-height: 40px;
+			}
+			.brand-con .hot-list span {
+				color: #69C;
+				font-size: 14px;
+				width: 35%;
+				text-align: right;
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="product_list" id="good_list">
+			<div id="J_ItemList">
+				<ul class="product single_item info" id = "brandbody" ></ul>
+			</div>
+		</div>
+		<script>
+			apiready = function() {
+
+				api.parseTapmode();
+				_showProgress();
+				getbrand();
+				_setRefreshHeaderInfo(function(ret, err) {
+					getbrand();
+				})
+			}
+			function getbrand() {
+				_ajax(api_url + "article_cat_list.php", "get", "{}", "json", function(ret) {
+					api.hideProgress();
+					document.getElementById('brandbody').innerHTML = ret.content;
+					_executeScript(ret.content);
+					api.refreshHeaderLoadDone();
+				});
+			}
+
+			
+		</script>
+	</body>
+</html>

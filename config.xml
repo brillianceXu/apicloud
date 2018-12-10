@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<widget id="A6069301178114" version="1.0">
+  <name>菜云</name>
+  <description>Example For APICloud.</description>
+  <author email="liang_chen@aliyun.com" href="http://www.apicloud.com">Developer</author>
+  <content src="index.html"/>
+  <preference name="pageBounce" value="false"/>
+  <preference name="appBackground" value="rgba(0,0,0,0.0)"/>
+  <preference name="windowBackground" value="rgba(0,0,0,0.0)"/>
+  <preference name="frameBackgroundColor" value="rgba(0,0,0,0.0)"/>
+  <preference name="hScrollBarEnabled" value="true"/>
+  <preference name="vScrollBarEnabled" value="true"/>
+  <preference name="autoLaunch" value="true"/>
+  <preference name="fullScreen" value="true"/>
+  <preference name="autoUpdate" value="true"/>
+  <preference name="smartUpdate" value="true"/>
+  <preference name="debug" value="true"/>
+  <preference name="iOS7StatusBarAppearance" value="true"/>
+  <permission name="readPhoneState"/>
+  <permission name="call"/>
+  <permission name="sms"/>
+  <permission name="camera"/>
+  <permission name="record"/>
+  <permission name="location"/>
+  <permission name="fileSystem"/>
+  <permission name="internet"/>
+  <permission name="bootCompleted"/>
+  <permission name="hardware"/>
+  <permission name="contact"/>
+  <access origin="*"/>
+  <feature name="smsVerify">
+    <param name="android_app_key" value="241e7086d69ea"/>
+    <param name="android_app_secret" value="77dd2af09e0f73f6a031f191ebe3e610"/>
+    <param name="ios_app_key" value="241e7086d69ea"/>
+    <param name="ios_app_secret" value="77dd2af09e0f73f6a031f191ebe3e610"/>
+  </feature>
+  <feature name="wxPay">
+    <param name="urlScheme" value="wx8b21c10fe5c235cd"/>
+    <param name="apiKey" value="wx8b21c10fe5c235cd"/>
+    <param name="apiSecret" value="21eb9de230f9199294146af2ee433642"/>
+  </feature>
+  <feature name="wx">
+    <param name="urlScheme" value="wx8b21c10fe5c235cd"/>
+    <param name="apiKey" value="wx8b21c10fe5c235cd"/>
+    <param name="apiSecret" value="21eb9de230f9199294146af2ee433642"/>
+  </feature>
+  <feature name="baiduLocation">
+    <param name="apiKey" value="O1ZkrkMGdR1mpPXeqPbdcoVfYhdWFgof"/>
+  </feature>
+  <feature name="aliPay">
+    <param name="urlScheme" value="AliPayA6069301178114"/>
+  </feature>
+</widget>

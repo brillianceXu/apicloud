@@ -1,0 +1,139 @@
+<!DOCTYPE html >
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+		<link rel="stylesheet" href="../../css/public.css">
+		<link rel="stylesheet" href="../../css/supplier.css">
+		<link rel="stylesheet" href="../../css/style_jm.css">
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../js/ecsmart.js"></script>
+		<script type="text/javascript" src="../../js/jquery.json.js"></script>
+		<script type="text/javascript" src="../../js/transport.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/utils.js"></script>
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<body style="background:#e5e5e5;">
+			<style>
+				/*.shop-list-box{margin-top: 0}
+				 .shop-list li{background: none;}
+				 .shop-list .shop-products ul li{background: #FFF; border-radius: 5px;}
+				 .shop-list .shop-products ul>li:first-child{margin-right: 10px;}*/
+				/*.shop-list .shop-action a{color: #F23015;}*/
+				header {
+					background: #cc221a;
+					position: relative;
+				}
+				.shop-list .shop-action i.icon {
+					display: inline-block;
+					width: 16px;
+					height: 16px;
+					background: no-repeat 0 0;
+					vertical-align: bottom;
+					-webkit-background-size: cover;
+					background-size: cover;
+				}
+				#header .back {
+					background-image: url(../../images/index.png);
+				}
+				#header.top_bt, .user_btn, .show_cart {
+					background: url(../../images/pub_flow.png) no-repeat;
+					background-size: auto 160px;
+				}
+				.shop-list .shop-action .contact i.icon {
+					background-image: url(../../images/iconfont-phone.png);
+				}
+				.shop-list .shop-action .shop i.icon {
+					background-image: url(../../images/iconfont-shop.png);
+				}
+				.address_box {
+					line-height: 30px;
+					font-size: 14px;
+					background: #FFF;
+					text-indent: 10px;
+				}
+				.shop-list .shop-thumb {
+					max-height: 80px;
+				}
+				.shop-info {
+					height: 80px;
+				}
+			</style>
+			<div >
+				<div ng-view="" class="page ng-scope" id="mainPage" style="height: 100%;">
+					<div class="address_box">
+						定位到你当前位置在：<span id="tlocation"></span>
+					</div>
+					<div class="wrap ng-scope">
+						<div class="shop-list-box">
+							<ul class="shop-list" id ="supplierbody"></ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script type="text/javascript">
+				apiready = function() {
+					api.parseTapmode();
+					var amount = 1;
+					$api.setStorage('dianpujiepage', 1);
+					_showProgress();
+					
+					var baiduLocation = api.require('baiduLocation');
+					latitude = '';
+					longitude = '';
+					baiduLocation.startLocation({
+						accuracy : '100m',
+						filter : 1,
+						autoStop : true
+					}, function(ret, err) {
+						if (ret.status) {
+							//alert(JSON.stringify(ret.latitude));
+							latitude = ret.latitude;
+							longitude = ret.longitude;
+							getsupplierbody(1);
+						} else {
+							alert(JSON.stringify(err));
+						}
+					});
+				
+					_setRefreshHeaderInfo(function(ret, err) {
+						$api.setStorage('dianpujiepage', 1);
+						$('#supplierbody').html("");
+						var page = $api.getStorage('dianpujiepage');
+						getsupplierbody(page);
+					});
+					api.addEventListener({
+						name : 'scrolltobottom'
+					}, function(ret, err) {
+						_showProgress();
+						var page = $api.getStorage('dianpujiepage');
+						getsupplierbody(page);
+						
+					});
+				}
+				function getsupplierbody(page) {
+					api_get = api_url + "supplier_near.php?page=" + page+"&latitude=" + latitude + "&longitude=" +longitude;
+					_ajax(api_get, "post", {
+					}, "json", function(ret) {
+						api.hideProgress();
+						//document.getElementById('supplierbody').innerHTML = ret.content;
+						if (ret.content) {
+							$('#supplierbody').append(ret.content.content);
+							//alert(ret.content.location);
+							//$('#tlocation').html(ret.content.location);
+							document.getElementById('tlocation').innerHTML = ret.content.location;
+						} else {
+							_toast("没有更多");
+						}
+						$api.setStorage('dianpujiepage', parseInt(page) + 1);
+						api.refreshHeaderLoadDone();
+					});
+				}
+			</script>
+		</body>
+</html>

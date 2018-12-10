@@ -1,0 +1,74 @@
+<!DOCTYPE html >
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+		<link rel="stylesheet" type="text/css" href="../../css/public.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/goods.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/aui2.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/comment.css"/>
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../script/aui-tab.js"></script>
+	</head>
+	<body class="body_bj">
+		
+		<div id="tbh5v0">
+			<div id="J_ItemList" class="order">
+				<ul class="single_item info" id = "ajaxorderlist"></ul>
+				<a href="javascript:;" class="get_more" style="text-align:center; display:block;"> </a>
+			</div>
+
+		</div>
+
+		<script>
+			apiready = function() {
+				api.parseTapmode();
+				stype = $api.getStorage('stype');
+				//alert('刚进入我是'+stype);
+				goods_id = api.pageParam.id;
+				$api.setStorage('pagelast', 1);
+				amount = 1;
+				_showProgress();
+				ajax_getorderlist(goods_id);
+				_setRefreshHeaderInfo(function(ret, err) {
+					$api.setStorage('pagelast', 1);
+					$('#ajaxorderlist').html('');
+					ajax_getorderlist(goods_id);
+				});
+				api.addEventListener({
+					name : 'scrolltobottom'
+				}, function(ret, err) {
+					ajax_getorderlist(goods_id);
+				});
+			}
+			function ajax_getorderlist(goods_id) {
+				last = parseInt($api.getStorage('pagelast'));
+				var data = {
+					'act' : 'list_json',
+					'goods_id' : goods_id,
+					'page' : last,
+					'type' : 0
+				};
+				_showProgress();
+				_ajax(api_url + "goods_comment.php", "post", {
+					'values' : data
+				}, "json", function(ret) {
+					api.hideProgress();
+					//alert(JSON.stringify(ret));
+					if (ret.content == "") {
+						_toast('没有更多评论！');
+					} else {
+						$('#ajaxorderlist').append(ret.content);
+						$api.setStorage('pagelast', last + amount);
+					}
+					api.refreshHeaderLoadDone();
+				});
+			}
+		</script>
+	</body>
+</html>

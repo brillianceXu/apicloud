@@ -1,0 +1,140 @@
+<!DOCTYPE html >
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+		<link rel="stylesheet" type="text/css" href="../../css/public.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/aui2.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/exshangexin.css" />
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../js/TouchSlide.1.1.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../script/aui-tab.js"></script>
+	</head>
+	<body class="body_bj">
+		<script type="text/javascript" src="../../js/mobile.js"></script>
+		<div id="tbh5v0">
+			<div id="exchangelistbody">
+				<div class="aui-tab" id="tab">
+					<div  class="aui-tab-item">
+						上架
+					</div>
+					<div class="aui-tab-item">
+						积分
+					</div>
+					<div  class="aui-tab-item">
+						更新
+					</div>
+					<div   class="aui-tab-item">
+						人气
+					</div>
+					
+				</div>
+				
+			</div>
+			<div id="J_ItemList" class="layout_list">
+				<div id = "ajaxexchangelist">
+				</div>
+			
+				<a href="javascript:;" class="get_more" style="text-align:center; display:block;"> </a>
+			</div>
+			<script type="text/javascript">
+				var from_order_empty = "请选择要合并的从订单";
+				var to_order_empty = "请选择要合并的主订单";
+				var order_same = "主订单和从订单相同，请重新选择";
+				var confirm_merge = "您确实要合并这两个订单吗？";
+			</script>
+		</div>
+		<script language="javascript">
+			$(function() {
+				$('input[type=text],input[type=password]').bind({
+					focus : function() {
+						$(".global-nav").css("display", 'none');
+					},
+					blur : function() {
+						$(".global-nav").css("display", 'flex');
+					}
+				});
+			})
+		</script>
+		<script>
+			apiready = function() {
+				api.parseTapmode();
+				sort = $api.getStorage('sort');
+				$api.setStorage('exchangelistlast', 0);
+				amount = 6;
+				_showProgress();
+				ajax_getexchangelist(amount, sort);
+				_setRefreshHeaderInfo(function(ret, err) {
+					$api.setStorage('exchangelistlast', 0);
+					$('#ajaxexchangelist').html('');
+					ajax_getexchangelist(amount, sort);
+				});
+				api.addEventListener({
+					name : 'scrolltobottom'
+				}, function(ret, err) {
+					ajax_getexchangelist(amount, sort);
+				});
+				var tab = new auiTab({
+					element : document.getElementById("tab"),
+					// callback:function(o,dom){
+					//     console.log(o);
+					// }
+				}, function(ret) {
+					//alert(JSON.stringify(ret));
+					if (ret.index == 1) {
+						$api.setStorage('sort', 'goods_id');
+					}
+					if (ret.index == 2) {
+						$api.setStorage('sort', 'exchange_integral');
+					}
+					if (ret.index == 3) {
+						$api.setStorage('sort', 'last_update');
+					}
+					if (ret.index == 4) {
+						$api.setStorage('sort','click_count');
+					}
+					
+					sort = $api.getStorage('sort');
+					//alert('点击后我是'+sort);
+					$api.setStorage('exchangelistlast', 0);
+					$('#ajaxexchangelist').html('');
+					ajax_getexchangelist(amount, sort);
+				});
+
+			}
+						
+			function ajax_getexchangelist(amount, sort) {
+				last = parseInt($api.getStorage('exchangelistlast'));
+				var data = {
+					'sort' : sort,
+					'last' : last,
+					'order':'DESC',
+					'amount' : amount,
+					'username' : username,
+					'password' : password
+				};
+				_showProgress();
+				_ajax(api_url + 'exchange.php?act=ajax_list', "post", {
+					'values' : data
+				}, "json", function(ret) {
+					api.hideProgress();
+					//alert(JSON.stringify(ret.content));
+					if (ret.content == "") {
+						_toast('没有更多！');
+					} else {
+						$.each(ret.content, function(i, item) {
+							$('#ajaxexchangelist').append(item.info);
+							$api.setStorage('exchangelistlast', last + amount);
+						});
+					}
+					api.refreshHeaderLoadDone();
+				});
+			}
+		</script>
+	</body>
+</html>

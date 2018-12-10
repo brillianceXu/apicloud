@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<style type="text/css"></style>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" type="text/css" href="../../css/public.css">
+		<link rel="stylesheet" type="text/css" href="../../css/user.css">
+		<link rel="stylesheet" type="text/css" href="../../css/aui2.css"/>
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+	</head>
+	<body class="body_bj">
+		<div id="tuikuandetailbody">
+			
+
+		</div>
+		<script>
+			apiready = function() {
+				api.parseTapmode();
+				_showProgress();
+				gettuikuandetail();
+				_setRefreshHeaderInfo(function(ret, err) {
+					gettuikuandetail();
+					api.refreshHeaderLoadDone();
+				})
+				api.addEventListener({
+					name : 'viewappear'
+				}, function(ret, err) {
+					gettuikuandetail();
+				});
+			}
+			function gettuikuandetail() {
+				order_id = $api.getStorage('back_order_id');
+				_ajax(api_url + "user.php?act=back_order&order_all=1&x=1&order_id="+order_id, "get", "{}", "json", function(ret) {
+					api.hideProgress();
+					document.getElementById('tuikuandetailbody').innerHTML = ret.content;
+				});
+			}
+			
+			
+			function back_order_act(){
+				var formdata = $("#theForm").serialize();
+				_showProgress();
+
+				_ajax(api_url + "user.php?act=back_order_act&" + formdata, "get", {
+			
+				}, "json", function(ret) {
+					api.hideProgress();
+					_alert(ret.content);
+			
+					api.refreshHeaderLoadDone();
+				});
+			}
+			
+		</script>
+
+	</body>
+</html>

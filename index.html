@@ -1,0 +1,368 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>index</title>
+		<link rel="stylesheet" type="text/css" href="./css/aui.css" />
+		<!--拓展AUI字体图标-->
+		<link rel="stylesheet" type="text/css" href="./css/iconfont/iconfont.css" />
+	</head>
+	<style>
+		#aui-footer .aui-iconfont {
+			font-size: 25px;
+		}
+		.aui-bar-1d9dd5 {
+			background: #4385f6;
+		}
+		.aui-bar-nav {
+			-webkit-box-pack: center;
+			-webkit-box-align: center;
+			/*height: 50px;*/
+		}
+		.aui-bar-navs {
+			display: -webkit-box;
+			-webkit-box-pack: center;
+			-webkit-box-align: center;
+			/*height: 50px;*/
+		}
+		.aui-nav .aui-bar-tab .active-warning .aui-iconfont, .aui-nav .aui-bar-tab .active-warning p {
+			color: #FF9800;
+		}
+		.aui-searchbar .aui-icon-search {
+			line-height: 30px;
+			margin-right: 5px;
+			font-size: 16px;
+		}
+		.chat {
+			background: #FF9800;
+			width: 45px;
+			height: 45px;
+			border-radius: 50%;
+			-webkit-border-radius: 50%;
+			line-height: 45px;
+			margin: 5px auto 0 auto;
+			text-align: center;
+		}
+		.chat i.aui-iconfont {
+			color: #fff !important;
+			line-height: 45px !important;
+			padding-top: 0 !important;
+		}
+		#aui-footer li.active-1d9dd5 .chat {
+			background: #FF9800;
+		}
+		.aui-left {
+			font-size: 14px;
+			padding-left: 8px;
+		}
+		.display-none {
+			display: none;
+		}
+	</style>
+	<body>
+		<header class="aui-bar aui-bar-nav aui-bar-danger display-none">
+			<a class="aui-btn aui-btn-danger aui-pull-left" tapmode onclick="closeWin()"></a>
+			<div class="aui-title" id="header-title">
+				首页
+			</div>
+		</header>
+		<header class="aui-bar aui-bar-nav aui-bar-danger header" id="aui-header">
+			<div class="aui-bar-navs">
+				<a class="aui-left">菜云</a>
+				<div class="aui-searchbar aui-border-radius" tapmode="" onclick="">
+					<i class="aui-iconfont aui-icon-search aui-text-default"></i>
+					<div class="aui-searchbar-input">
+						<form  name="searchForm" id="searchForm" action="javascript:dosearch();">
+							<input type='hidden' name='type' id="searchtype" value="0" >
+							<input type="search" placeholder="请输入搜索内容" name="keywords"  id="search-input" class="search-input">
+						</form>
+					</div>
+				</div>
+				<a href="tel:085127677588" class="aui-iconfont aui-icon-service aui-pull-right" tapmode onclick="" style="font-size: 27px;"></a>
+			</div>
+		</header>
+		<header class="aui-bar aui-bar-nav aui-bar-danger header display-none" id="dianpu-header" style="padding-top:25px;">
+			<div class="aui-bar-navs">
+				<a class="aui-left">店铺街 </a>
+				<div class="aui-searchbar aui-border-radius" tapmode="" onclick="">
+					<i class="aui-iconfont aui-icon-search aui-text-default"></i>
+					<div class="aui-searchbar-input">
+						<form  name="searchForm" id="searchForm" action="javascript:dosearch();">
+							<input type='hidden' name='type' id="searchtype" value="0" >
+							<input type="search" placeholder="请输入搜索内容" name="keywords"  id="search-input" class="search-input">
+						</form>
+					</div>
+				</div>
+
+			</div>
+		</header>
+		<header class="aui-bar aui-bar-nav aui-bar-danger header display-none" id="sort-header" style="padding-top:25px;">
+			<div class="aui-bar-navs">
+				<a class="aui-left">商品分类 </a>
+				<div class="aui-searchbar aui-border-radius" tapmode="" onclick="">
+					<i class="aui-iconfont aui-icon-search aui-text-default"></i>
+					<div class="aui-searchbar-input">
+						<form  name="searchForm1" id="searchForm1" action="javascript:dosearch1();">
+							<input type='hidden' name='type' id="searchtype" value="0" >
+							<input type="search" placeholder="请输入搜索内容" name="keywords"  id="search-input1" class="search-input">
+						</form>
+					</div>
+				</div>
+				<a class="aui-iconfont aui-icon-service aui-pull-right" tapmode onclick="" style="font-size: 27px;"></a>
+			</div>
+		</header>
+		<header class="aui-bar aui-bar-nav aui-bar-danger header display-none" id="cart-header" style="padding-top:25px;">
+			<div class="aui-title">
+				购物车
+			</div>
+			<a class=" aui-pull-right" tapmode onclick="clearcart()">清空</a>
+		</header>
+		<header class="aui-bar aui-bar-nav aui-bar-danger header display-none" id="member-header" style="padding-top:25px;">
+			<div class="aui-title">
+				个人中心
+			</div>
+			<a class="aui-iconfont aui-icon-settings aui-pull-right" tapmode onclick="_openWin('userprofile','html/user/userprofile_win.html')"></a>
+		</header>
+		<footer class="aui-nav" id="aui-footer">
+			<ul class="aui-bar-tab">
+				<li class="active-warning" id="tabbar1" tapmode onclick="randomSwitchBtn(this,'首页',0)">
+					<span class="aui-iconfont aui-icon-home"></span>
+					<p>
+						首页
+					</p>
+				</li>
+				<li id="tabbar5" tapmode onclick="randomSwitchBtn(this,'店铺',1)">
+					<span class="aui-iconfont aui-icon-shop"></span>
+					<p>
+						店铺街
+					</p>
+				</li>
+				<li id="tabbar2" tapmode onclick="randomSwitchBtn(this,'分类',2)">
+					<span class="aui-iconfont aui-icon-apps"></span>
+					<p>
+						分类
+					</p>
+				</li>
+				<li id="tabbar3" tapmode onclick="randomSwitchBtn(this,'购物车',3)">
+					<span class="aui-iconfont aui-icon-cart"></span>
+					<p>
+						购物车
+					</p>
+				</li>
+				<li id="tabbar4" tapmode onclick="randomSwitchBtn(this,'我',4)">
+					<span class="aui-iconfont aui-icon-my"></span>
+					<p>
+						我
+					</p>
+				</li>
+			</ul>
+		</footer>
+	</body>
+	<script type="text/javascript" src="./script/api.js"></script>
+	<script type="text/javascript" src="./script/jquery.min.js"></script>
+	<script type="text/javascript" src="./script/winu-base.js"></script>
+	<script type="text/javascript" src="./script/flow.js"></script>
+	<script type="text/javascript" src="./script/config.js"></script>
+	<script type="text/javascript">
+		apiready = function() {
+			var uid = $api.getStorage('uid');
+			api.parseTapmode();
+			//监听通知被点击
+			var header = $api.byId('aui-header');
+			$api.fixStatusBar(header);
+			var headerPos = $api.offset(header);
+			var footer = $api.byId('aui-footer');
+			var footer_h = $api.offset(footer).h;
+			api.openFrameGroup({
+				name : 'footer_tab',
+				scrollEnabled : false,
+				rect : {
+					x : 0,
+					y : headerPos.h,
+					w : 'auto',
+					h : api.winHeight - headerPos.h - footer_h
+				},
+				index : 0,
+				preload : 0,
+				frames : [{
+					name : 'main',
+					url : 'main.html',
+					bounces : false
+				}, {
+					name : 'supplier',
+					url : 'html/supplier/supplier.html',
+					bounces : false
+				}, {
+					name : 'category',
+					url : 'html/catelog/catelog.html',
+					pageParam : {
+						parentHeaderHeight : headerPos.h,
+						parentFooterHeight : footer_h
+					},
+					bounces : false
+				}, {
+					name : 'myCart',
+					url : 'html/cart/cart.html',
+					bounces : false
+				}, {
+					name : 'user',
+					url : 'html/user/user.html',
+					bounces : false
+				}]
+			}, function(ret, err) {
+				var footer = $api.byId('aui-footer');
+				var footerAct = $api.dom(footer, '.aui-bar-tab li.active-warning');
+				$api.removeCls(footerAct, 'active-warning');
+				var name = ret.name;
+				var index = ret.index;
+
+				if (index == 0) {
+					//$api.text($api.byId('header-title'), '首页');
+					$api.addCls($api.byId('tabbar1'), 'active-warning');
+				} else if (index == 1) {
+					//$api.text($api.byId('header-title'), '分类');
+					$api.addCls($api.byId('tabbar5'), 'active-warning');
+				} else if (index == 2) {
+					//$api.text($api.byId('header-title'), '购物车');
+					$api.addCls($api.byId('tabbar2'), 'active-warning');
+				} else if (index == 3) {
+					//$api.text($api.byId('header-title'), '我');
+					$api.addCls($api.byId('tabbar3'), 'active-warning');
+				} else if (index == 4) {
+					//$api.text($api.byId('header-title'), '分类');
+					$api.addCls($api.byId('tabbar4'), 'active-warning');
+				}
+			});
+			if ($api.getStorage('launch')) {
+			} else {
+				$api.setStorage('launch', 1);
+				api.openWin({
+					name : 'launch',
+					url : 'launch.html',
+					rect : {
+						x : 0,
+						y : 0,
+						w : 0,
+						h : 0
+					}
+				});
+			}
+		}
+		function closeWin() {
+			api.closeWin();
+		}
+
+		function randomSwitchBtn(obj, name, index) {
+
+			$(".header").siblings().addClass("display-none");
+			if (index === 0) {
+				$("#aui-header").removeClass("display-none");
+			}
+			else if(index === 1 ){
+				$("#dianpu-header").removeClass("display-none");
+			}
+			else if (index === 2) {
+				$("#sort-header").removeClass("display-none");
+			} else if (index === 3) {
+				$("#cart-header").removeClass("display-none");
+			} else if (index === 4) {
+				$("#member-header").removeClass("display-none");
+			}
+			var footer = $api.byId('aui-footer');
+			var footerAct = $api.dom(footer, '.aui-bar-tab li.active-warning');
+			$api.removeCls(footerAct, 'active-warning');
+			$api.addCls(obj, 'active-warning');
+			if (index === 0 || index === 1) {
+				api.setFrameGroupIndex({
+					name : 'footer_tab',
+					index : index,
+					scroll : true,
+					reload : false
+				});
+			} else {
+				api.setFrameGroupIndex({
+					name : 'footer_tab',
+					index : index,
+					scroll : true,
+					reload : true
+				});
+			}
+			$("#aui-footer").css('display', 'block');
+		}
+
+		function dosearch() {
+			var sd = $("#search-input").val();
+			if (sd == '') {
+				_alert("请输入关键词！");
+			} else {
+				keyword = $("#search-input").val();
+				var formdata = $('#searchForm').serialize();
+				formdata = decodeURIComponent(formdata, true);
+				console.log('searchdata:' + formdata);
+				api.openWin({
+					name : 'searchcategory',
+					url : './html/search/searchcategory_win.html',
+					pageParam : {
+						formdata : formdata,
+						keyword : keyword
+					}
+				});
+			}
+		}
+
+		function dosearch1() {
+			var sd = $("#search-input1").val();
+			if (sd == '') {
+				_alert("请输入关键词！");
+			} else {
+				keyword = $("#search-input1").val();
+				var formdata = $('#searchForm1').serialize();
+				formdata = decodeURIComponent(formdata, true);
+				console.log('searchdata:' + formdata);
+				api.openWin({
+					name : 'searchcategory',
+					url : './html/search/searchcategory_win.html',
+					pageParam : {
+						formdata : formdata,
+						keyword : keyword
+					}
+				});
+			}
+		}
+
+		var indexToDetail = function(title, url, itemId) {
+			api.openWin({
+				name : 'detailwinweb',
+				url : './html/detail/detailwinweb.html',
+				pageParam : {
+					title : title,
+					url : url,
+					itemId : itemId
+				},
+				rect : {
+					x : 0,
+					y : 0,
+					w : 'auto',
+					h : 'auto'
+				}
+			});
+		};
+		function showmeiqia() {
+			var mq = api.require('meiQia');
+			//配置初始化美洽需要的appkey
+			var param = {
+				appkey : "be923fc327989035e236d79bae84e211"
+			};
+			//初始化美洽
+			mq.initMeiQia(param, function(ret, err) {
+				if (ret) {
+					mq.show();
+				} else {
+					//初始化失败
+					alert(JSON.stringify(err));
+				}
+			})
+		}
+	</script>
+</html>

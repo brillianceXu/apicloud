@@ -1,0 +1,33 @@
+
+/*列表切换*/
+.maple-tab {
+    background-color: #fff;
+    width: 100%;
+}
+.maple-tab ul {
+    width: 100%;
+    overflow: hidden;
+}
+
+.maple-tab ul li {
+    list-style-type: none;
+    float: left;
+    width: 33.3%;
+    text-align: center;
+    color: #333;
+    font-size: 1 rem;
+    padding: 2% 0;
+    border-bottom: 2px solid #dedede;
+    cursor: pointer;
+}
+
+/*tab活动状态样式*/
+.maple-tab .active {
+    color: #f76755;
+    border-bottom: 2px solid #f76755;
+}
+
+
+
+
+

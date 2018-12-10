@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" type="text/css" href="../../css/public.css">
+		<link rel="stylesheet" type="text/css" href="../../css/v_user.css">
+		<link href="../../css/swiper.min.css" rel="stylesheet">
+		<link href="../../css/style_swiper.css" rel="stylesheet">
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+	</head>
+	<body style=" background:#e5e5e5">
+		<div class="maple-tab clearFix" id = "fixtab" style = "position: fixed;top:0px;z-index:9999999;">
+			<ul>
+				<li class="active">
+					<p class="m-border-right" >
+						已分成
+					</p>
+				</li>
+				<li>
+					<p>
+						待分成
+					</p>
+				</li>
+				<li>
+					<p>
+						取消分成
+					</p>
+				</li>
+			</ul>
+		</div>
+		<div style = "margin-top:30px;">
+			<div class="swiper-container">
+				<div class="swiper-wrapper" id = "brandbody" >
+					<div id="user_goods_ka_1" class="swiper-slide tab-content-1" >
+						<div class="dingdan" v-if = "content.yes_distrib_list != []" v-for= "item in content.yes_distrib_list">
+							<h2><span>{{item.supplier_name}}</span><em>{{item.level}}级会员</em></h2>
+							<dl v-for= "item1 in item.goods">
+								<dt><img v-bind:src="item1.goods_thumb">
+								</dt>
+								<dd>
+									<p>
+										{{item1.goods_name}}
+									</p>
+									<strong>{{item.call_username}}</strong>
+								</dd>
+								<span> <em>￥{{item1.goods_price}}</em> <i>x{{item1.goods_number}}</i> </span>
+							</dl>
+							<h3><em>合计：￥{{item.split_money}}</em><span>共{{item.goods_count}}件商品</span></h3>
+							<h4>订单分成金额：<strong>￥{{item.total_money}}</strong></h4>
+						</div>
+						<div v-else class="font_prompt">
+							您没有订单哦！
+						</div>
+					</div>
+					<div id="user_goods_ka_1" class="swiper-slide tab-content-1" >
+						<div class="dingdan" v-if = "content.no_distrib_list != []" v-for= "item in content.no_distrib_list">
+							<h2><span>{{item.supplier_name}}</span><em>{{item.level}}级会员</em></h2>
+							<dl v-for= "item1 in item.goods">
+								<dt><img v-bind:src="item1.goods_thumb">
+								</dt>
+								<dd>
+									<p>
+										{{item1.goods_name}}
+									</p>
+									<strong>{{item.call_username}}</strong>
+								</dd>
+								<span> <em>￥{{item1.goods_price}}</em> <i>x{{item1.goods_number}}</i> </span>
+							</dl>
+							<h3><em>合计：￥{{item.split_money}}</em><span>共{{item.goods_count}}件商品</span></h3>
+							<h4>订单分成金额：<strong>￥{{item.total_money}}</strong></h4>
+						</div>
+						<div v-else class="font_prompt">
+							您没有订单哦！
+						</div>
+					</div>
+					<div id="user_goods_ka_1" class="swiper-slide tab-content-1" >
+						<div class="dingdan" v-if = "content.cancel_distrib_list != []" v-for= "item in content.cancel_distrib_list">
+							<h2><span>{{item.supplier_name}}</span><em>{{item.level}}级会员</em></h2>
+							<dl v-for= "item1 in item.goods">
+								<dt><img v-bind:src="item1.goods_thumb">
+								</dt>
+								<dd>
+									<p>
+										{{item1.goods_name}}
+									</p>
+									<strong>{{item.call_username}}</strong>
+								</dd>
+								<span> <em>￥{{item1.goods_price}}</em> <i>x{{item1.goods_number}}</i> </span>
+							</dl>
+							<h3><em>合计：￥{{item.split_money}}</em><span>共{{item.goods_count}}件商品</span></h3>
+							<h4>订单分成金额：<strong>￥{{item.total_money}}</strong></h4>
+						</div>
+						<div v-else class="font_prompt">
+							您没有订单哦！
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../script/vue.js"></script>
+		<script src="../../js/jquery-1.9.1.min.js"></script>
+		<script src="../../script/swiper.min.js"></script>
+		<script>
+			var fixtab = $api.offset('#fixtab');
+			var vm = new Vue({
+				el : "#brandbody",
+				data : {
+					error : 1,
+					content : ''
+				}
+			});
+			apiready = function() {
+				api.parseTapmode();
+				_showProgress();
+				getbrand();
+				_setRefreshHeaderInfo(function(ret, err) {
+					getbrand();
+				})
+			}
+			var mySwiper = new Swiper('.swiper-container', {
+				onSlideChangeEnd : function(swiper) {
+					var j = mySwiper.activeIndex;
+					$('.maple-tab li, .maple-tab2 li, .maple-tab3 li').removeClass('active').eq(j).addClass('active');
+				},
+				observer : true, //修改swiper自己或子元素时，自动初始化swiper
+				observeParents : true,//修改swiper的父元素时，自动初始化swiper
+			})
+			/*列表切换*/
+			$('.maple-tab li, .maple-tab2 li, .maple-tab3 li').on('click', function(e) {
+				e.preventDefault();
+				//得到当前索引
+				var i = $(this).index();
+				$('.maple-tab li, .maple-tab2 li, .maple-tab3 li').removeClass('active').eq(i).addClass('active');
+				mySwiper.slideTo(i, 300, false);
+			});
+			function getbrand() {
+				_ajax(api_url + "user_shouyi1.php", "post", ldata, "json", function(ret) {
+					api.hideProgress();
+					if (ret.content) {
+						vm.error = 0;
+						vm.content = ret.content;
+					}
+					//document.getElementById('brandbody').innerHTML = ret.content;
+					//_executeScript(ret.content);
+					api.refreshHeaderLoadDone();
+				});
+			}
+		</script>
+	</body>
+</html>

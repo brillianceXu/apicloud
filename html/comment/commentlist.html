@@ -1,0 +1,141 @@
+<!DOCTYPE html >
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+		<link rel="stylesheet" type="text/css" href="../../css/public.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/user.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/aui2.css"/>
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../js/jquery.more.js"></script>
+		<script type="text/javascript" src="../../js/jquery.json.js"></script>
+		<script type="text/javascript" src="../../js/transport.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/utils.js"></script>
+		<script type="text/javascript" src="../../js/shopping_flow.js"></script>
+		
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../script/exeinnerjs.js"></script>
+		<script type="text/javascript" src="../../script/order.js"></script>
+		<script type="text/javascript" src="../../script/aui-tab.js"></script>
+	</head>
+	<body class="body_bj">
+		<script type="text/javascript" src="../../js/mobile.js"></script>
+		<div id="tbh5v0">
+			<div id="commentlistbody">
+				<div class="aui-tab" id="tab">
+					<div id = "indexall" class="aui-tab-item">
+						全部
+					</div>
+					<div id = "indexwait" class="aui-tab-item">
+						待评价
+					</div>
+					<div  id = "indexfinish" class="aui-tab-item">
+						已评价
+					</div>
+				</div>
+			</div>
+			<div id="J_ItemList" class="order">
+				<ul class="single_item info" id = "ajaxcommentlist"></ul>
+				<a href="javascript:;" class="get_more" style="text-align:center; display:block;"> </a>
+			</div>
+			<script type="text/javascript">
+				var from_order_empty = "请选择要合并的从订单";
+				var to_order_empty = "请选择要合并的主订单";
+				var order_same = "主订单和从订单相同，请重新选择";
+				var confirm_merge = "您确实要合并这两个订单吗？";
+			</script>
+		</div>
+		<script language="javascript">
+			$(function() {
+				$('input[type=text],input[type=password]').bind({
+					focus : function() {
+						$(".global-nav").css("display", 'none');
+					},
+					blur : function() {
+						$(".global-nav").css("display", 'flex');
+					}
+				});
+			})
+		</script>
+		<script>
+			apiready = function() {
+				api.parseTapmode();
+				commentstate = $api.getStorage('commentstate');
+				//alert('刚进入我是'+commentstate);
+				$api.setStorage('commentlistpage', 1);
+				amount = 1;
+				_showProgress();
+				ajax_getcommentlist(amount, commentstate);
+				_setRefreshHeaderInfo(function(ret, err) {
+					$api.setStorage('commentlistpage', 1);
+					$('#ajaxcommentlist').html('');
+					ajax_getcommentlist(amount, commentstate);
+				});
+				api.addEventListener({
+					name : 'scrolltobottom'
+				}, function(ret, err) {
+					ajax_getcommentlist(amount, commentstate);
+				});
+				
+
+				
+				
+				var tab = new auiTab({
+					element : document.getElementById("tab"),
+					// callback:function(o,dom){
+					//     console.log(o);
+					// }
+				}, function(ret) {
+					//alert(JSON.stringify(ret));
+					if (ret.index == 2) {
+						$api.setStorage('commentstate', 'wait');
+					} else if (ret.index == 3) {
+						$api.setStorage('commentstate', 'finish');
+					} else {
+						$api.setStorage('commentstate', 'all');
+					}
+					commentstate = $api.getStorage('commentstate');
+					//alert('点击后我是'+commentstate);
+					$api.setStorage('commentlistpage', 1);
+					$('#ajaxcommentlist').html('');
+					ajax_getcommentlist(amount, commentstate);
+				});
+				$('#tab div').attr("class", "aui-tab-item");
+				$("#index" + commentstate).attr("class", "aui-tab-item aui-active");
+				//alert("#index"+commentstate + $("#index"+commentstate).attr('class'));
+			}
+			function ajax_getcommentlist(amount, commentstate) {
+				page = parseInt($api.getStorage('commentlistpage'));
+				
+				var data = {
+					'state' : commentstate,
+					'act' : 'my_comment',
+					'page' : page,
+					'amount' : amount
+				};
+				//_alert(data);
+				_showProgress();
+				_ajax(api_url + "user.php", "post", {
+					'values' : data
+				}, "json", function(ret) {
+					api.hideProgress();
+					//alert(JSON.stringify(ret));
+					if (ret.content == "") {
+						_toast('没有更多订单！');
+					} else {
+						
+							$('#ajaxcommentlist').append(ret.content);
+							$api.setStorage('commentlistpage', page + amount);
+						
+					}
+					api.refreshHeaderLoadDone();
+				});
+			}
+		</script>
+	</body>
+</html>

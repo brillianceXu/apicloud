@@ -1,0 +1,872 @@
+﻿<!DOCTYPE html>
+<html>
+	<style type="text/css" ></style>
+	<head>
+
+
+		<meta name="viewport" content="width=device-width">
+		<title> </title>
+
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" type="text/css" href="../../css/public.css">
+		<link rel="stylesheet" type="text/css" href="../../css/goods.css">
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../js/TouchSlide.1.1.js"></script>
+
+		<script type="text/javascript" src="../../js/touchslider.dev.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+	</head>
+	<body style="cursor: auto;">
+		<script type="text/javascript">
+			var process_request = "正在处理您的请求...";
+		</script>
+		
+		<script type="text/javascript">
+			/*第一种形式 第二种形式 更换显示样式*/
+			function setGoodsTab(name, cursel, n) {
+				$('html,body').animate({
+					'scrollTop' : 0
+				}, 600);
+				for ( i = 1; i <= n; i++) {
+					var menu = document.getElementById(name + i);
+					var con = document.getElementById("user_" + name + "_" + i);
+					menu.className = i == cursel ? "on" : "";
+					con.style.display = i == cursel ? "block" : "none";
+				}
+			}
+		</script>
+		<div class="goods_header">
+			<h2><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></h2>
+			<ul>
+				<li>
+					<a href="javascript:;" class="on" id="goods_ka1" onclick="setGoodsTab('goods_ka',1,3)">商品</a>
+				</li>
+				<li>
+					<a href="javascript:;" class="" id="goods_ka2" onclick="setGoodsTab('goods_ka',2,3), show_goods_desc()">详情</a>
+				</li>
+				<li>
+					<a href="javascript:;" class="" id="goods_ka3" onclick="setGoodsTab('goods_ka',3,3)">评价</a>
+				</li>
+			</ul>
+			<dl>
+				<dd class="top_bar">
+					<div onclick="show_menu();$('#close_btn').addClass('hid');" id="show_more">
+						<a href="javascript:;"></a>
+					</div>
+				</dd>
+				<dt>
+					<a href="flow.php" class="show_cart"><em class="global-nav__nav-shop-cart-num" id="ECS_CARTINFO"> 3 </em></a>
+				</dt>
+			</dl>
+		</div>
+		<script type="text/javascript" src="../../js/mobile.js"></script>
+		<div class="goods_nav hid" id="menu">
+			<div class="Triangle">
+				<h2></h2>
+			</div>
+			<ul>
+				<li>
+					<a href="index.php"><span class="menu1"></span><i>首页</i></a>
+				</li>
+				<li>
+					<a href="catalog.php"><span class="menu2"></span><i>分类</i></a>
+				</li>
+				<li>
+					<a href="flow.php"><span class="menu3"></span><i>购物车</i></a>
+				</li>
+				<li style=" border:0;">
+					<a href="user.php"><span class="menu4"></span><i>我的</i></a>
+				</li>
+			</ul>
+		</div>
+		<form action="share_goods.php" method="post" id="share_form">
+			<input type="hidden" name="content" value="女人志 新款灯笼袖中领毛衣+韩绒料口袋短裙套装送皮带2233">
+			<input type="hidden" name="pics" value="./../images/201603/goods_img/_P_1458307388302.jpg">
+			<input type="hidden" name="gid" value="291">
+			<input type="hidden" name="url" value="http://www.a14.com/mobile/goods.php?u=250&amp;id=291">
+		</form>
+		<form action="javascript:addToCart(291)" method="post" id="purchase_form" name="ECS_FORMBUY">
+			<input type="hidden" id="chat_goods_id" value="291">
+			<input type="hidden" id="chat_supp_id" value="21">
+			<div class="main body_bj" id="user_goods_ka_1" style="display: block;">
+				<div class="banner">
+					<div id="slider" class="slider" style="overflow: hidden; visibility: visible; list-style: none; position: relative;">
+						<ul id="sliderlist" class="sliderlist" style="position: relative; overflow: hidden; transition: left 600ms ease; width: 9600px; left: -3840px;">
+							<li style="float: left; display: block; width: 1920px;">
+								<span><a href="javacript:void(0)"><img title="" width="100%" src="../../images/201603/goods_img/_P_1458307388302.jpg"></a></span>
+							</li>
+							<li style="float: left; display: block; width: 1920px;">
+								<span><a href="javacript:void(0)"><img title="" width="100%" src="../../images/201603/goods_img/_P_1458307389108.jpg"></a></span>
+							</li>
+							<li style="float: left; display: block; width: 1920px;">
+								<span><a href="javacript:void(0)"><img title="" width="100%" src="../../images/201603/goods_img/_P_1458307389392.jpg"></a></span>
+							</li>
+							<li style="float: left; display: block; width: 1920px;">
+								<span><a href="javacript:void(0)"><img title="" width="100%" src="../../images/201603/goods_img/_P_1458307389108.jpg"></a></span>
+							</li>
+							<li style="float: left; display: block; width: 1920px;">
+								<span><a href="javacript:void(0)"><img title="" width="100%" src="../../images/201603/goods_img/_P_1458307389392.jpg"></a></span>
+							</li>
+						</ul>
+						<div id="pagenavi">
+							<a href="javascript:void(0);" class="active"></a>
+							<a href="javascript:void(0);" class=""></a>
+							<a href="javascript:void(0);" class=""></a>
+							<a href="javascript:void(0);" class=""></a>
+							<a href="javascript:void(0);" class=""></a>
+						</div>
+					</div>
+				</div>
+				<div class="s_bottom"></div>
+				<script type="text/javascript">
+					$(function() {
+						$("div.module_special .wrap .major ul.list li:last-child").addClass("remove_bottom_line");
+					});
+					var active = 0, as = document.getElementById('pagenavi').getElementsByTagName('a');
+					for (var i = 0; i < as.length; i++) {
+						(function() {
+							var j = i;
+							as[i].onclick = function() {
+								t2.slide(j);
+								return false;
+							}
+						})();
+					}
+					var t2 = new TouchSlider({
+						id : 'sliderlist',
+						speed : 600,
+						timeout : 6000,
+						before : function(index) {
+							as[active].className = '';
+							active = index;
+							as[active].className = 'active';
+						}
+					});
+				</script>
+				<div class="product_info">
+					<div class="info_dottm">
+						<h2>女人志 新款灯笼袖中领毛衣+韩绒料口袋短裙套装送皮带2233</h2>
+						<div class="right">
+							<a onclick="tiaozhuan()"> <div id="pro_share" class="share"></div> </a>
+						</div>
+					</div>
+					<dl class="goods_price">
+						<dt>
+							<span id="ECS_GOODS_AMOUNT">81.00</span>
+						</dt>
+						<dd>
+							<i>价格：<font>119.00</font></i>
+							<em>赠送积分: <span id="ECS_GOODS_AMOUNT_JF">81</span></em>
+							<em id="IS_EXCLUSIVE" style="display:none">手机专享</em>
+						</dd>
+					</dl>
+					<ul class="price_dottm">
+						<li style=" text-align:left">
+							折扣：6.8折
+						</li>
+						<li>
+							0人评价
+						</li>
+						<li style=" text-align:right">
+							人已购
+						</li>
+					</ul>
+				</div>
+				<div class="goods_hd">
+					<dl>
+						<dt onclick="choose_attrstr(0)">
+							会员等级价格
+						</dt>
+					</dl>
+				</div>
+				<div class="goods_can">
+					<dl>
+						<dt onclick="choose_attrone(0)">
+							产品参数
+						</dt>
+					</dl>
+				</div>
+				<div class="goods_can">
+					<dl id="ECS_SELECT_GOODS_ATTR" style="display: block;">
+						<dt onclick="choose_attr(0)">
+							<span>产品属性：尺码：S</span>
+						</dt>
+					</dl>
+				</div>
+				<section id="search_ka" class="goods_ziti">
+					<a href="pocking.php?id=291"><span>查看自提点</span><i><img src="../../images/goods/ziti.png"></i></a>
+				</section>
+				<section class="rzs_info">
+					<div class="top_info">
+						<dl>
+							<a href="supplier.php?suppId=21">
+							<dt><img src="../../images/goods/dianpu.jpg">
+							</dt>
+							<dd>
+								<span>商家店铺名称</span><em>高级店铺</em>
+							</dd> </a>
+						</dl>
+						<ul>
+							<a href="supplier.php?suppId=21">
+							<li class="bian_l whim">
+								<strong>1</strong><font>全部商品</font>
+							</li>
+							<li class="bian_l whim">
+								<strong>0</strong><font>关注人数</font>
+							</li>
+							<li class="whim1">
+								<span><em>宝贝描述</em><i>5.0</i></span>
+								<span><em>卖家服务</em><i>5.0</i></span>
+								<span><em>物流服务</em><i>5.0</i></span>
+							</li> </a>
+						</ul>
+					</div>
+					<div class="s_dianpu">
+						<span><a href="javascript:guanzhu(21)" style=" margin-left:7%;"><em class="bg1"></em>收藏店铺</a></span>
+						<span><a href="supplier.php?suppId=21" style=" margin-left:3%;"><em class="bg2"></em>进入店铺</a></span>
+					</div>
+				</section>
+			</div>
+			<div class="main" id="user_goods_ka_2" style="display: none;">
+				<div class="product_main" style=" margin-top:40px;">
+					<div class="product_images product_desc" id="product_desc">
+						<p>
+							风格：通勤
+						</p>
+						<p>
+							货号：ED23129387
+						</p>
+						<p>
+							品牌：other/其他
+						</p>
+						<p>
+							服装版型：蝙蝠型
+						</p>
+						<p>
+							厚薄：加厚
+						</p>
+						<p>
+							款式：套头
+						</p>
+						<p>
+							组合形式：两件套
+						</p>
+						<p>
+							衣长：常规款
+						</p>
+						<p>
+							袖长：长袖
+						</p>
+						<p>
+							领子：其他
+						</p>
+						<p>
+							袖型：灯笼袖
+						</p>
+						<p>
+							图案：纯色
+						</p>
+						<p>
+							功能性：保暖发热
+						</p>
+						<p>
+							毛线粗细：常规毛线
+						</p>
+						<p>
+							面料：棉
+						</p>
+						<p>
+							面料主材质含量：71%(含)-80%(含)
+						</p>
+						<p>
+							适用年龄：18-24周岁
+						</p>
+						<p>
+							年份/季节：2016年春季
+						</p>
+						<p>
+							颜色分类：浅灰毛衣卡其裙子,白色毛衣黑色裙子,白色,浅灰色
+						</p>
+						<p>
+							尺码：S,M,L
+						</p><img src="https://img.alicdn.com/imgextra/i3/849176811/TB2iydSlFXXXXXrXXXXXXXXXXXX_!!849176811.jpg"><img src="https://img.alicdn.com/imgextra/i4/849176811/TB2ddRplFXXXXX9XpXXXXXXXXXX_!!849176811.jpg"><img src="https://img.alicdn.com/imgextra/i3/849176811/TB2B5XplFXXXXX4XpXXXXXXXXXX_!!849176811.jpg"><img src="https://img.alicdn.com/imgextra/i1/849176811/TB22hJflFXXXXbUXpXXXXXXXXXX_!!849176811.jpg"><img src="https://img.alicdn.com/imgextra/i4/849176811/TB2UHtDlFXXXXb9XXXXXXXXXXXX_!!849176811.jpg"><img src="https://img.alicdn.com/imgextra/i2/849176811/TB2lFlllFXXXXaTXpXXXXXXXXXX_!!849176811.jpg"><img src="https://img.alicdn.com/imgextra/i1/849176811/TB27PdRlFXXXXXHXXXXXXXXXXXX_!!849176811.jpg"><img src="https://img.alicdn.com/imgextra/i4/849176811/TB2EDNSlFXXXXXwXXXXXXXXXXXX_!!849176811.jpg"><img src="https://img.alicdn.com/imgextra/i1/849176811/TB2MopvlFXXXXXiXpXXXXXXXXXX_!!849176811.jpg"><img src="https://img.alicdn.com/imgextra/i2/849176811/TB2qEJOlFXXXXX8XXXXXXXXXXXX_!!849176811.jpg"><img src="https://img.alicdn.com/imgextra/i3/849176811/TB2c6hklFXXXXaSXpXXXXXXXXXX_!!849176811.jpg"><img src="https://img.alicdn.com/imgextra/i3/849176811/TB2WT0IlFXXXXaRXXXXXXXXXXXX_!!849176811.jpg"><img src="https://img.alicdn.com/imgextra/i1/849176811/TB2hcxclFXXXXbPXpXXXXXXXXXX_!!849176811.jpg">
+					</div>
+				</div>
+			</div>
+			<div class="tab_attrs tab_item hide" id="user_goods_ka_3" style="display:none;">
+				<script type="text/javascript" src="js/utils.js"></script>
+				<div id="ECS_COMMENT">
+					<link href="../../css/photoswipe.css" rel="stylesheet" type="text/css">
+					<script src="../../js/klass.min.js"></script>
+					<script src="../../js/photoswipe.js"></script>
+					<div class="my_comment_list" id="ECS_MYCOMMENTS">
+						<div class="comment_list">
+							<div class="score">
+								暂时还没有任何用户评论
+							</div>
+						</div>
+					</div>
+					<script language="javascript">
+						function ShowMyComments(goods_id, type, page) {
+							Ajax.call('goods_comment.php?act=list_json', 'goods_id=' + goods_id + '&type=' + type + '&page=' + page, ShowMyCommentsResponse, 'GET', 'JSON');
+						}
+
+						function ShowMyCommentsResponse(result) {
+							if (result.error) {
+							}
+							try {
+								var layer = document.getElementById("ECS_MYCOMMENTS");
+								layer.innerHTML = result.content;
+								var myPhotoSwipe = $("#gallery a").photoSwipe({
+									enableMouseWheel : false,
+									enableKeyboard : false,
+									allowUserZoom : false,
+									loop : false
+								});
+							} catch (ex) {
+							}
+						}
+					</script>
+				</div>
+				<script language="javascript">
+					ShowMyComments(291, 0, 1);
+				</script>
+			</div>
+			<script type="text/javascript">
+				var goods_id = 291;
+				var goodsattr_style = 1;
+				var gmt_end_time = 0;
+				var day = "天";
+				var hour = "小时";
+				var minute = "分钟";
+				var second = "秒";
+				var end = "结束";
+				var goodsId = 291;
+				var now_time = 1471702215;
+				onload = function() {
+					changePrice();
+					try {
+						onload_leftTime(now_time);
+					} catch (e) {
+					}
+				}
+				/**/
+				 function  show_goods_desc(){
+				 document.getElementById('product_desc').innerHTML = '<p>风格：通勤</p><p>货号：ED23129387</p><p>品牌：other/其他</p><p>服装版型：蝙蝠型</p><p>厚薄：加厚</p><p>款式：套头</p><p>组合形式：两件套</p><p>衣长：常规款</p><p>袖长：长袖</p><p>领子：其他</p><p>袖型：灯笼袖</p><p>图案：纯色</p><p>功能性：保暖发热</p><p>毛线粗细：常规毛线</p><p>面料：棉</p><p>面料主材质含量：71%(含)-80%(含)</p><p>适用年龄：18-24周岁</p><p>年份/季节：2016年春季</p><p>颜色分类：浅灰毛衣卡其裙子,白色毛衣黑色裙子,白色,浅灰色</p><p>尺码：S,M,L</p><img src=https://img.alicdn.com/imgextra/i3/849176811/TB2iydSlFXXXXXrXXXXXXXXXXXX_!!849176811.jpg><img src=https://img.alicdn.com/imgextra/i4/849176811/TB2ddRplFXXXXX9XpXXXXXXXXXX_!!849176811.jpg><img src=https://img.alicdn.com/imgextra/i3/849176811/TB2B5XplFXXXXX4XpXXXXXXXXXX_!!849176811.jpg><img src=https://img.alicdn.com/imgextra/i1/849176811/TB22hJflFXXXXbUXpXXXXXXXXXX_!!849176811.jpg><img src=https://img.alicdn.com/imgextra/i4/849176811/TB2UHtDlFXXXXb9XXXXXXXXXXXX_!!849176811.jpg><img src=https://img.alicdn.com/imgextra/i2/849176811/TB2lFlllFXXXXaTXpXXXXXXXXXX_!!849176811.jpg><img src=https://img.alicdn.com/imgextra/i1/849176811/TB27PdRlFXXXXXHXXXXXXXXXXXX_!!849176811.jpg><img src=https://img.alicdn.com/imgextra/i4/849176811/TB2EDNSlFXXXXXwXXXXXXXXXXXX_!!849176811.jpg><img src=https://img.alicdn.com/imgextra/i1/849176811/TB2MopvlFXXXXXiXpXXXXXXXXXX_!!849176811.jpg><img src=https://img.alicdn.com/imgextra/i2/849176811/TB2qEJOlFXXXXX8XXXXXXXXXXXX_!!849176811.jpg><img src=https://img.alicdn.com/imgextra/i3/849176811/TB2c6hklFXXXXaSXpXXXXXXXXXX_!!849176811.jpg><img src=https://img.alicdn.com/imgextra/i3/849176811/TB2WT0IlFXXXXaRXXXXXXXXXXXX_!!849176811.jpg><img src=https://img.alicdn.com/imgextra/i1/849176811/TB2hcxclFXXXXbPXpXXXXXXXXXX_!!849176811.jpg>';
+				 }
+				 /**
+				 * 点选可选属性或改变数量时修改商品价格的函数
+				 */
+				function changePrice() {
+					var attr = getSelectedAttributes(document.forms['ECS_FORMBUY']);
+					var qty = document.forms['ECS_FORMBUY'].elements['number'].value;
+					if (qty <= 0) {
+						document.forms['ECS_FORMBUY'].elements['number'].value = 1;
+						qty = 1;
+					}
+					Ajax.call('goods.php', 'act=price&id=' + goodsId + '&attr=' + attr + '&number=' + qty, changePriceResponse, 'GET', 'JSON');
+				}
+
+				/**
+				 * 接收返回的信息
+				 */
+				function changePriceResponse(res) {
+					if (res.err_msg.length > 0) {
+						alert(res.err_msg);
+					} else {
+						document.forms['ECS_FORMBUY'].elements['number'].value = res.qty;
+						if (document.getElementById('ECS_GOODS_AMOUNT')) {
+							document.getElementById('ECS_GOODS_AMOUNT').innerHTML = res.result;
+						}
+						if (document.getElementById('ECS_GOODS_NUMBER')) {
+							document.getElementById('ECS_GOODS_NUMBER').innerHTML = res.goods_attr_number;
+							if (res.goods_attr_number > 0) {
+								document.getElementById('ECS_ADD_TO_CART').style.display = "block";
+								document.getElementById('ECS_ONE_STEP_BUY').style.display = "block";
+								document.getElementById('ECS_DAOHUO').style.display = "none";
+							} else {
+								document.getElementById('ECS_ADD_TO_CART').style.display = "none";
+								document.getElementById('ECS_ONE_STEP_BUY').style.display = "none";
+								document.getElementById('ECS_DAOHUO').style.display = "block";
+							}
+						}
+						if (document.getElementById('ECS_GOODS_AMOUNT_JF')) {
+							document.getElementById('ECS_GOODS_AMOUNT_JF').innerHTML = res.result_jf;
+						}
+						if (document.getElementById('ECS_GOODS_AMOUNT_CHOOSE')) {
+							document.getElementById('ECS_GOODS_AMOUNT_CHOOSE').innerHTML = res.result;
+						}
+						if (document.getElementById('ECS_GOODS_ATTR_THUMB')) {
+							document.getElementById('ECS_GOODS_ATTR_THUMB').src = res.goods_attr_thumb;
+						}
+						if (document.getElementById('ECS_GOODS_ATTR')) {
+							document.getElementById('ECS_GOODS_ATTR').innerHTML = res.goods_attr;
+						}
+						if (document.getElementById('ECS_SELECT_GOODS_ATTR') && res.goods_attr != '') {
+							document.getElementById('ECS_SELECT_GOODS_ATTR').style.display = "block";
+							document.getElementById('ECS_SELECT_GOODS_ATTR').innerHTML = "<dt onClick='choose_attr(0)'><span>产品属性：" + res.goods_attr + "</span></dt>";
+						}
+						if (document.getElementById('IS_EXCLUSIVE') && res.is_exclusive) {
+							document.getElementById('IS_EXCLUSIVE').style.display = 'block';
+						} else {
+							document.getElementById('IS_EXCLUSIVE').style.display = 'none';
+						}
+					}
+				}
+			</script>
+			<section class="f_mask2" style="display: none;"></section>
+			<section class="f_block2" id="choose_attr2" style="height:0; overflow:hidden;">
+				<div class="Promotions">
+					<h2>优惠活动</h2>
+					<ul></ul>
+				</div>
+				<div class="goods_shut">
+					<a href="javascript:void(0)" onclick="close_choose_attr2();" class="shut" style=" color:#FFF; font-size:18px;">关闭</a>
+				</div>
+			</section>
+			<script>
+				function choose_attrtwo(num) {
+					$("#choose_attr2").animate({
+						height : '80%'
+					}, [10000]);
+					var total = 0, h = $(window).height(), top = $('.Promotions h2').height() || 0, con = $('.Promotions');
+					total = 0.8 * h;
+					con.height(total - top + 'px');
+					$(".f_mask2").show();
+				}
+
+				function close_choose_attr2() {
+					$(".f_mask2").hide();
+					$('#choose_attr2').animate({
+						height : '0'
+					}, [10000]);
+				}
+
+				function changeAtt(t) {
+					t.lastChild.checked = 'checked';
+					for (var i = 0; i < t.parentNode.childNodes.length; i++) {
+						if (t.parentNode.childNodes[i].className == 'hover') {
+							t.parentNode.childNodes[i].className = '';
+							t.childNodes[0].checked = "checked";
+						}
+					}
+					t.className = "hover";
+					changePrice();
+				}
+
+				function changeAtt1(t) {
+					t.lastChild.checked = 'checked';
+					for (var i = 0; i < t.parentNode.childNodes.length; i++) {
+						if (t.className == 'hover') {
+							t.className = '';
+							t.childNodes[0].checked = false;
+						} else {
+							t.className = "hover";
+							t.childNodes[0].checked = true;
+						}
+					}
+					changePrice();
+				}
+			</script>
+			<section class="f_mask3" style="display: none;"></section>
+			<section class="f_block3" id="choose_attr3" style="height:0; overflow:hidden;">
+				<div class="subNavBox">
+					<h2>会员专享价</h2>
+					<ul>
+						<li>
+							<p>
+								sd员：
+							</p>
+							<span>81.00</span>
+						</li>
+						<li>
+							<p>
+								铜牌会员：
+							</p>
+							<span>76.95</span>
+						</li>
+						<li>
+							<p>
+								金牌会员：
+							</p>
+							<span>72.90</span>
+						</li>
+						<li>
+							<p>
+								钻石会员：
+							</p>
+							<span>68.85</span>
+						</li>
+						<li>
+							<p>
+								微信会员：
+							</p>
+							<span>81.00</span>
+						</li>
+					</ul>
+				</div>
+				<div class="goods_shut">
+					<a href="javascript:void(0)" onclick="close_choose_attr3();" class="shut" style=" color:#FFF;font-size:18px;">关闭</a>
+				</div>
+			</section>
+			<script>
+				function choose_attrstr(num) {
+					$("#choose_attr3").animate({
+						height : '80%'
+					}, [10000]);
+					var total = 0, h = $(window).height(), top = $('.subNavBox').height() || 0, con = $('.subNavBox ul');
+					total = 0.8 * h;
+					con.height(total - top + 'px');
+					$(".f_mask3").show();
+				}
+
+				function close_choose_attr3() {
+					$(".f_mask3").hide();
+					$('#choose_attr3').animate({
+						height : '0'
+					}, [10000]);
+				}
+			</script>
+			<section class="f_mask1" style="display: none;"></section>
+			<section class="f_block1" id="choose_attr1" style="height:0; overflow:hidden;">
+				<section class="good_canshu">
+					<h2>商品信息</h2>
+					<ul>
+						<li>
+							<p>
+								商品名称：
+							</p><span>女人志 新款灯笼袖中领毛衣+韩绒料口袋短裙套装送皮带2233</span>
+						</li>
+						<li>
+							<p>
+								商品编号：
+							</p><span>ED23188167</span>
+						</li>
+						<li>
+							<p>
+								上架时间：
+							</p><span>2016-03-18</span>
+						</li>
+						<li>
+							<p>
+								商品重量：
+							</p><span>0克</span>
+						</li>
+						<li>
+							<p>
+								商品库存：
+							</p><span> 299 </span>
+						</li>
+						<li>
+							<p>
+								风格:
+							</p><span>韩范</span>
+						</li>
+						<li>
+							<p>
+								袖长:
+							</p><span>长袖</span>
+						</li>
+						<li>
+							<p>
+								图案:
+							</p><span>纯色</span>
+						</li>
+					</ul>
+				</section>
+				<div class="goods_shut">
+					<a href="javascript:void(0)" onclick="close_choose_attr1();" class="shut" style=" color:#FFF;font-size:18px;">关闭</a>
+				</div>
+			</section>
+			<script>
+				function choose_attrone(num) {
+					$("#choose_attr1").animate({
+						height : '80%'
+					}, [10000]);
+					var total = 0, h = $(window).height(), top = $('.good_canshu').height() || 0, con = $('.xiangq');
+					total = 0.8 * h;
+					con.height(total - top + 'px');
+					$(".f_mask1").show();
+				}
+
+				function close_choose_attr1() {
+					$(".f_mask1").hide();
+					$('#choose_attr1').animate({
+						height : '0'
+					}, [10000]);
+				}
+			</script>
+			<section class="f_mask" style="display: none;"></section>
+			<section class="f_block" id="choose_attr" style="height:0; overflow:hidden;">
+				<div class="f_title_attr">
+					<img id="ECS_GOODS_ATTR_THUMB" src="./../images/201603/thumb_img/_thumb_P_1458307388786.jpg" style=" float:left;">
+					<div class="f_title_arr_r">
+						<span>价格：<i id="ECS_GOODS_AMOUNT_CHOOSE">81.00</i></span>
+						<span>库存：<i id="ECS_GOODS_NUMBER">99</i>件</span>
+						<span id="ECS_GOODS_ATTR">尺码：S</span>
+					</div>
+					<a class="c_close_attr" href="javascript:void(0)" onclick="close_choose_attr();"></a>
+					<div style="height:0px; line-height:0px; clear:both;"></div>
+				</div>
+				<div class="f_content_attr">
+					<ul class="navContent" style="display:block;">
+						<li>
+							<div class="title">
+								尺码
+							</div>
+							<div class="item">
+								<a class="hover" href="javascript:;" name="339" onclick="changeAtt(this);" for="spec_value_339" title="">
+								<input style="display:none" id="spec_value_339" type="radio" name="spec_16" value="339" checked="">
+								S </a>
+								<a href="javascript:;" name="340" onclick="changeAtt(this);" for="spec_value_340" title="">
+								<input style="display:none" id="spec_value_340" type="radio" name="spec_16" value="340">
+								M </a>
+								<a href="javascript:;" name="341" onclick="changeAtt(this);" for="spec_value_341" title="">
+								<input style="display:none" id="spec_value_341" type="radio" name="spec_16" value="341">
+								L </a>
+							</div>
+						</li>
+						<li style=" border-bottom:1px solid #eeeeee">
+							<div class="title1">
+								购买数量
+							</div>
+							<div class="item1">
+								<script language="javascript" type="text/javascript">
+									function goods_cut() {
+										var num_val = document.getElementById('number');
+										var new_num = num_val.value;
+										var Num = parseInt(new_num);
+										if (Num > 1)
+											Num = Num - 1;
+										num_val.value = Num;
+									}
+
+									function goods_add() {
+										var num_val = document.getElementById('number');
+										var new_num = num_val.value;
+										var Num = parseInt(new_num);
+										Num = Num + 1;
+										num_val.value = Num;
+									}
+								</script>
+								<span class="ui-number"> <button type="button" class="decrease" onclick="goods_cut();changePrice();"></button>
+									<input type="number" class="num" id="number" onblur="changePrice();" name="number" value="1" min="1" style=" text-align:center">
+									<button type="button" class="increase" onclick="goods_add();changePrice();"></button> </span>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="f_foot">
+					<input type="submit" border="0" class="add_gift_attr" value="提交">
+					<div style=" height:30px"></div>
+				</div>
+			</section>
+			<script>
+				function choose_attr(num) {
+					document.body.style.overflow = 'hidden';
+					$("#choose_attr").animate({
+						height : '80%'
+					}, [10000]);
+					var total = 0, h = $(window).height(), top = $('.f_title_attr').height() || 0, bottom = $('#choose_attr .f_foot').height() || 0, con = $('.f_content_attr');
+					total = 0.8 * h;
+					con.height(total - top - bottom + 'px');
+					$(".f_mask").show();
+					if (num == 0) {
+						var actionForm = document.getElementById('purchase_form');
+						actionForm.action = "javascript:addToCart(291),close_choose_attr()";
+					}
+					if (num == 1) {
+						var actionForm = document.getElementById('purchase_form');
+						actionForm.action = "javascript:addToCart(291,0,1),close_choose_attr()";
+					}
+				}
+
+				function close_choose_attr() {
+					document.body.style.overflow = '';
+					$(".f_mask").hide();
+					$('#choose_attr').animate({
+						height : '0'
+					}, [10000]);
+				}
+			</script>
+			<section class="f_mask6" style="display: none;"></section>
+			<section class="f_block6" id="choose_attr6" style="height:0; overflow:hidden;">
+				<section class="callme">
+					<h2>到货通知</h2>
+					<div id="tell_me_form" style="display: none; left: 710px; top: 331.5px;">
+						<div class="tell_me_con">
+							<div style="background:#FFFDEE ;border:1px dotted #ff3300;line-height:20px; font-weight:normal; padding:10px; margin-top:10px;">
+								<p style="font-size:16px;color:#F52648;">
+									女人志 新款灯笼袖中领毛衣+韩绒料口袋短...
+								</p>
+								<p style="font-size:12px;color:#999;">
+									当商品进行补货时，我们将以短信、邮件的形式通知您，最多发送一次，不会对您造成干扰。
+								</p>
+							</div>
+							<ul>
+								<li>
+									<span><font color="#ff3300">*</font>数量：</span><em>
+									<input type="text" value="1" id="book_number">
+									</em>
+								</li>
+								<li>
+									<span><font color="#ff3300">*</font>手机号码：</span><em>
+									<input type="text" value="" id="phone_num">
+									</em>
+								</li>
+								<li>
+									<span><font color="#ff3300">*</font>电子邮箱：</span><em>
+									<input type="text" value="" id="arrival_email">
+									</em>
+								</li>
+								<li>
+									<input type="button" value="提交" onclick="tell_me1(291)" class="tell_btn">
+								</li>
+							</ul>
+						</div>
+					</div>
+					<script>
+						$(function() {
+							$('#tell_me_form').css('left', ($(window).width() - 500) / 2);
+							$('#tell_me_form').css('top', ($(window).height() - 300) / 2);
+							$('.tell_me_close').click(function() {
+								$('#tell_me_form').hide();
+								//	document.getElementById('bg').style.display='none';
+							})
+						})
+					</script>
+					<script type="text/javascript">
+						function tell_me(goods_id) {
+							//no_have = (typeof(no_have_val) == "undefined" ? 0 : no_have_val);
+							Ajax.call('user.php?act=book_goods', 'id=' + goods_id, tellmeResponse, 'GET', 'JSON');
+						}
+
+						function tellmeResponse(result) {
+							if (result.error == 1) {
+								document.getElementById('tell_me_form').style.display = 'block';
+								// document.getElementById('bg').style.display='block';
+								document.getElementById('phone_num').value = result.tel;
+								document.getElementById('arrival_email').value = result.email;
+								choose_attr6(0);
+							}
+							if (result.error == 0) {
+								alert(result.message);
+							}
+							if (result.error == 2) {
+								alert(result.message);
+								close_choose_attr6();
+								document.getElementById('tell_me_form').style.display = document.getElementById('tell_me_form').style.display == 'none' ? 'block' : 'none';
+								//  document.getElementById('bg').style.display='none';
+							}
+						}
+
+						function tell_me1(goods_id) {
+							var num = document.getElementById('book_number').value;
+							var tel = document.getElementById('phone_num').value;
+							var email = document.getElementById('arrival_email').value;
+							var msg = '';
+							var g = /^[1-9]*[1-9][0-9]*$/;
+							if (num == '') {
+								msg += '数量不能为空!\n';
+							} else if (!g.test(num)) {
+								msg += '数量需为正整数！\n';
+							}
+							if (tel == '') {
+								msg += '手机号码不能为空！\n';
+							}
+							if (email == '') {
+								msg += '邮箱不能为空!\n';
+							}
+							if (msg) {
+								alert(msg);
+								return false;
+							} else {
+								//no_have = (typeof(no_have_val) == "undefined" ? 0 : no_have_val)
+								Ajax.call('user.php?act=add_book_goods', 'id=' + goods_id + '&num=' + num + '&tel=' + tel + '&em=' + email, tellmeResponse, 'GET', 'JSON');
+							}
+						}
+					</script>
+					<div id="tell_me_form" style="display:none;">
+						<div class="tell_me_con">
+							<div style="background:#FFFDEE ;border:1px dotted #ff3300;line-height:20px; font-weight:normal; padding:10px; margin-top:10px;">
+								<p style="font-size:16px;color:#F52648;">
+									女人志 新款灯笼袖中领毛衣+韩绒料口袋短...
+								</p>
+								<p style="font-size:12px;color:#999;">
+									当商品进行补货时，我们将以短信、邮件的形式通知您，最多发送一次，不会对您造成干扰。
+								</p>
+							</div>
+							<ul>
+								<li>
+									<span><font color="#ff3300">*</font>数量：</span><em>
+									<input type="text" value="1" id="book_number">
+									</em>
+								</li>
+								<li>
+									<span><font color="#ff3300">*</font>手机号码：</span><em>
+									<input type="text" value="" id="phone_num">
+									</em>
+								</li>
+								<li>
+									<span><font color="#ff3300">*</font>电子邮箱：</span><em>
+									<input type="text" value="" id="arrival_email">
+									</em>
+								</li>
+								<li>
+									<input type="button" value="提交" onclick="tell_me1(291)" class="tell_btn">
+								</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<div class="goods_shut">
+					<a href="javascript:void(0)" onclick="close_choose_attr6();" class="shut" style=" color:#FFF;font-size:18px;">关闭</a>
+				</div>
+			</section>
+			<script>
+				function choose_attr6(num){
+					$("#choose_attr6").animate({height:'80%'},[10000]);
+					var total=0,h=$(window).height(),
+					top =$('.callme').height()||0,
+					con = $('.tell_me_con');
+					total = 0.8*h;
+					con.height(total-top+'px');
+					$(".f_mask6").show();
+					}
+					function close_choose_attr6(){
+					$(".f_mask6").hide();
+					$('#choose_attr6').animate({height:'0'},[10000]);
+					}
+					function guanzhu(sid){
+					Ajax.call('supplier.php', 'go=other&act=add_guanzhu&suppId=' + sid, selcartResponse, 'GET', 'JSON');
+					}
+					function selcartResponse(result){
+					alert(result.info);
+					}
+			</script>
+		</form>
+		<div style=" height:55px;"></div>
+		<div class="footer_nav">
+			<ul>
+				<li class="bian">
+					<a href="index.php"><em class="goods_nav1"></em><span>首页</span></a>
+				</li>
+				<li class="bian">
+					<a href="javascript:chat_online();"><em class="goods_nav2"></em><span>客服</span></a>
+				</li>
+				<li>
+					<a href="javascript:collect(291)" id="favorite_add"><em class="goods_nav3"></em><span>收藏</span></a>
+				</li>
+			</ul>
+			<dl>
+				<dd class="flow" id="ECS_ADD_TO_CART" style="display: block;">
+					<a class="button active_button" onclick="choose_attr(0)">加入购物车</a>
+				</dd>
+				<dd class="goumai" id="ECS_ONE_STEP_BUY" style="display: block;">
+					<a style="display:block;" onclick="choose_attr(1)">立即购买</a>
+				</dd>
+				<span class="daohuo" id="ECS_DAOHUO" style="display: none;"> <a onclick="tell_me(291)">到货通知</a></span>
+			</dl>
+		</div>
+	</body>
+</html>

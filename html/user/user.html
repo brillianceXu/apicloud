@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<meta content="telephone=no" name="format-detection" />
+		<title>个人中心</title>
+		<link rel="stylesheet" type="text/css" href="../../css/user.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/public.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/Hui.css"/>
+		<script src="../../js/modernizr.js"></script>
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../js/user.js"></script>
+	</head>
+	<body class="body_bj">
+		<div id = "ucTop" class="H-horizontal-center H-theme-background-color7 H-overflow-hidden" style="min-height: 180px;padding-top:20px;" tapmode onclick = "login();">
+			<div class="H-overflow-hidden H-max-width-100-percent H-padding-horizontal-both-10 H-box-sizing-border-box">
+				<div class="picture H-position-relative  H-margin-horizontal-auto" style="width: 96px; height: 96px;">
+					<span class="H-icon H-display-block H-position-absolute H-center-all H-border-radius-circle H-z-index-1000 H-line-height-0 H-theme-background-color9-active" style="height: 20px; width: 20px; bottom: 5px; right: 5px; "><i class="H-iconfont H-icon-camera H-theme-font-color-white H-font-size-12 H-vertical-align-middle"></i></span><img id = "headimgurl" src="../../image/touxiang.jpg" class="H-display-block H-border-radius-circle" alt="" title="" style="width: 90px; height: 90px; border:3px solid rgba(255,255,255,0.3);" />
+				</div>
+				<strong class="H-display-block H-font-weight-normal H-font-weight-500 H-font-size-18 H-theme-font-color-white H-text-align-center H-margin-vertical-both-8" id= "tusername">登陆/注册</strong>
+				<div class="H-font-size-12 H-theme-font-color-white H-text-show-row-1">
+					<p style="text-align:center;">
+						资产：￥<em id="user_money">0.00</em>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div id="tbh5v0">
+			<div class="user_com">
+				<div class="Order">
+					<dl>
+						<a tapmode onclick="openOrderlist(-1);">
+						<dt>
+							<strong>全部订单</strong><span>查看全部订单</span>
+						</dt></a>
+					</dl>
+					<ul>
+						<li>
+							<a tapmode onclick="openOrderlist(100);"><em class="ordem2"><i id = 'await_pay'>0</i></em><span>待付款</span></a>
+						</li>
+						<li>
+							<a  tapmode onclick="openOrderlist(101);"><em class="ordem3"><i id = 'await_ship'>0</i></em><span>待发货</span></a>
+						</li>
+						<li>
+							<a tapmode onclick="openOrderlist(105);"><em class="ordem1"><i id = 'await_receipt'>0</i></em><span>待收货</span></a>
+						</li>
+						<li>
+							<a tapmode onclick="openOrderlist(102);"><em class="ordem4"><i id = 'finished'>0</i></em><span>已完成</span></a>
+						</li>
+						<li>
+							<a tapmode onclick="_openWin('tuikuanlist','../user/tuikuanlist_win.html')"><em class="ordem4"><i id = 'record_count'>0</i></em><span>退款退货</span></a>
+						</li>
+					</ul>
+				</div>
+				<div class="Assets">
+					<dl>
+						<a href1="" onclick="openAccount()">
+						<dt>
+							<strong>我的资产</strong><span>全部资产/充值</span>
+						</dt></a>
+					</dl>
+					<ul>
+						<li>
+							<a onclick="_openWin('accountdetail','../account/accountdetail_win.html')"><i class="Assets1"></i><span>账户明细</span></a>
+						</li>
+						<li>
+							<a onclick="_openWin('bonus','../account/deposit_win.html')"><i class="Assets2"></i><span>在线充值</span></a>
+						</li>
+						<li>
+							<a onclick="_openWin('bonus','../account/raply_win.html')"><i class="Assets3"></i><span>提现</span></a>
+						</li>
+						<li>
+							<a onclick="_openWin('accountlog','../account/accountlog_win.html')"><i class="Assets4"></i><span>申请记录</span></a>
+						</li>
+					</ul>
+				</div>
+				<div class="Wallet main_top">
+					<a onclick="_openWin('v','../v/v_user_win.html')"><em class="Icon8"></em>
+					<dl class="border_bottm">
+						<dt>
+							我的分销
+						</dt>
+						<dd>
+							查看分销信息
+						</dd>
+					</dl></a>
+					<a onclick="my_comment()"><em class="Icon1"></em>
+					<dl class="border_bottm">
+						<dt>
+							评价/晒单
+						</dt>
+						<dd>
+							查看评价/晒单
+						</dd>
+					</dl></a>
+					<a  onclick="collection(0)"><em class="Icon2"></em>
+					<dl>
+						<dt>
+							我的收藏
+						</dt>
+						<dd>
+							商品收藏/店铺收藏
+						</dd>
+					</dl></a>
+
+				</div>
+				<div class="Wallet main_top">
+					<a  tapmode onclick="address()"><em class="Icon3"></em>
+					<dl class="border_bottm">
+						<dt>
+							收货地址
+						</dt>
+						<dd>
+							添加/修改
+						</dd>
+					</dl></a>
+					<a  onclick = "myclearcache()"><em class="Icon4"></em>
+					<dl class="border_bottm">
+						<dt>
+							清除缓存
+						</dt>
+						<dd id="cachesize"></dd>
+					</dl></a>
+					<a onclick = "_openWin('messagelist','usermsg_win.html')"><em class="Icon5"></em>
+					<dl>
+						<dt>
+							我的留言
+						</dt>
+						<dd>
+							&nbsp;
+						</dd>
+					</dl></a>
+				</div>
+				<div class="Wallet main_top" id="tlogout">
+					<a onclick="logout()" ><em class="Icon6"></em>
+					<dl>
+						<dt>
+							注销登录
+						</dt>
+					</dl></a>
+				</div>
+			</div>
+		</div>
+		<div id="updateheaderimg"> </div>
+	</body>
+	<script>
+		apiready = function() {
+			if ($api.getStorage('uid')) {
+				$('#tusername').html($api.getStorage('username'));
+				$('#headimgurl').attr('src',$api.getStorage('headimgurl'));
+			}
+			if (!$api.getStorage('uid')) {
+				$('#tlogout').css('display', 'none');
+			}
+			_showProgress();
+			paystatus();
+			_setRefreshHeaderInfo(function(ret, err) {
+				paystatus();
+			})
+			api.addEventListener({
+				name : 'userlogin'
+			}, function(ret, err) {
+				paystatus();
+
+				if ($api.getStorage('uid')) {
+					$('#tusername').html($api.getStorage('username'));
+					$('#headimgurl').attr('src',$api.getStorage('headimgurl'));
+					$('#tlogout').css('display', 'block');
+				}
+			});
+			api.addEventListener({
+				name : 'logOut'
+			}, function(ret, err) {
+				_removeStorage('username');
+				_removeStorage('password');
+				_removeStorage('headimgurl');
+				_removeStorage('uid');
+				if (!$api.getStorage('uid')) {
+					$('#tusername').html("登陆/注册");
+					$('#tlogout').css('display', 'none');
+					$('#user_money').html("0.00");
+					$('#await_pay').html("0");
+					$('#await_ship').html("0");
+					$('#await_receipt').html("0");
+					$('#finished').html("0");
+					$('#record_count').html("0");
+					$('#headimgurl').attr('src','../../image/touxiang.jpg');
+					_toast('退出成功');
+				}
+			});
+			api.addEventListener({
+				name : 'viewappear'
+			}, function(ret, err) {
+				if ($api.getStorage('uid')) {
+					//_alert($api.getStorage('username'));
+					$('#tusername').html($api.getStorage('username'));
+					$('#headimgurl').attr('src',$api.getStorage('headimgurl'));
+				}
+				if (!$api.getStorage('uid')) {
+					$('#tlogout').css('display', 'none');
+				}
+			});
+			api.addEventListener({
+				name : 'unlogin'
+			}, function(ret, err) {
+				_removeStorage('username');
+				_removeStorage('password');
+				_removeStorage('uid');
+				_removeStorage('headimgurl');
+				if (!$api.getStorage('uid')) {
+					$('#tusername').html("登陆/注册");
+					$('#headimgurl').attr('src','../../image/touxiang.jpg');
+					$('#tlogout').css('display', 'none');
+				}
+			});
+			api.getCacheSize(function(ret) {
+				var size = ret.size;
+				zsize = FormatNumber(size / 1024 / 1024, 2);
+				$("#cachesize").html(zsize + "M");
+			});
+		}
+		function paystatus() {
+			_ajax(api_url + "user.php?act=paystatus", "get", "{}", "json", function(ret) {
+				api.hideProgress();
+				//alert(JSON.stringify(ret.content));
+				document.getElementById('await_pay').innerHTML = ret.content.await_pay;
+				document.getElementById('await_ship').innerHTML = ret.content.await_ship;
+				document.getElementById('await_receipt').innerHTML = ret.content.await_receipt;
+				document.getElementById('finished').innerHTML = ret.content.finished;
+				document.getElementById('record_count').innerHTML = ret.content.record_count;
+				document.getElementById('user_money').innerHTML = ret.content.user_money;
+				api.refreshHeaderLoadDone();
+			});
+		}
+
+		function login() {
+			if (!$api.getStorage('uid')) {
+				api.openWin({
+					name : 'login',
+					url : 'login.html',
+					animation : {
+						type : "movein", //动画类型（详见动画类型常量）
+						subType : "from_bottom", //动画子类型（详见动画子类型常量）
+						duration : 300 //动画过渡时间，默认300毫秒
+					}
+				});
+			} else {
+				updateimage();return;
+				_openWin('userprofile', 'userprofile_win.html');
+			}
+		}
+
+		function logout() {
+			api.confirm({
+				title : '确认退出吗？',
+				buttons : ['确定', '取消']
+			}, function(ret, err) {
+				var index = ret.buttonIndex;
+				if (index == 1) {
+					var data = {
+						'act' : 'logout'
+					};
+					api.showProgress({
+						style : 'default',
+						animationType : 'fade',
+						title : '退出登录中...',
+						text : '请稍等...',
+						modal : false
+					});
+					_ajax(api_url + "user.php", "post", {
+						'values' : data
+					}, "json", function(ret) {
+						api.hideProgress();
+						if (ret.error == 0) {
+							_toast(ret.content);
+						}
+						_sendEvent("logOut");
+						//_toase('退出');
+						//_openWin('login', 'login.html');
+					});
+				} else {
+				}
+			});
+		}
+
+		function openOrderlist(id) {
+			composite_status = $api.setStorage('composite_status', id);
+			api.openWin({
+				name : 'orderlist',
+				url : 'orderlist_win.html',
+				pageParam : {
+					id : id
+				}
+			});
+		}
+
+		function openAccount() {
+			api.openWin({
+				name : 'account',
+				url : '../account/account_win.html'
+			});
+		}
+
+		function openBonus() {
+			api.openWin({
+				name : 'account',
+				url : '../account/account_win.html'
+			});
+		}
+
+		function address() {
+			api.openWin({
+				name : 'address',
+				url : 'address_win.html'
+			});
+		}
+
+		function myclearcache() {
+			api.confirm({
+				title : '确认清空缓存吗？',
+				buttons : ['确定', '取消']
+			}, function(ret, err) {
+				var index = ret.buttonIndex;
+				if (index == 1) {
+					api.clearCache(function() {
+						api.toast({
+							msg : '清除完成'
+						});
+					})
+					$("#cachesize").html("0M");
+				} else {
+				}
+			});
+		}
+	</script>
+
+</html>

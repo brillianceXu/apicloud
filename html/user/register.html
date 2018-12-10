@@ -1,0 +1,564 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>注册</title>
+		<link href="../../css/Hui.css" rel="stylesheet" type="text/css" />
+		<link href="../../css/aui3.css" rel="stylesheet" type="text/css" />
+		<style type="text/css">
+			body {
+				background: url(../../image/login_bg.jpg) no-repeat left top;
+				background-size: cover;
+			}
+			table{border-collapse:collapse}
+			tr{border-bottom:0.1px solid grey;box-sizing:border-box;}
+			td{padding:10px 5px;box-sizing:border-box;}
+				td:first-child{width:150px;}
+			/*td:last-child{}*/
+			td input[type="text"],input[type="number"]{border:none;background:transparent;font-size:16px;padding:5px;box-sizing:border-box;}
+			.address_select{
+				width:48%;height:40px;margin-bottom:10px;font-size:16px;text-align:center;
+
+			}
+
+
+		</style>
+	</head>
+	<body class="H-height-100-percent H-box-sizing-border-box">
+		<div class="fix">
+			<div class="H-horizontal-center H-padding-vertical-both-25">
+				<span onclick="api.closeWin();" class="H-icon H-center-all H-border-radius-circle H-margin-horizontal-auto" style="height: 42px; width: 42px;position: absolute; left:30px;top:60px;background: #959595;"><i class="aui-iconfont aui-icon-close" style="font-size:20px;color:#fff;"></i></span>
+
+				<div class="H-text-align-center">
+					<img src="../../image/userTitle.png" class="H-border-radius-12 H-margin-vertical-top-10" style="width:80px;height:80px;" />
+					<div class="H-font-size-18">
+						注册
+					</div>
+				</div>
+			</div>
+			<div class="H-border-vertical-top-after H-margin-vertical-top-20">
+				<div class="H-flexbox-horizontal  H-border-vertical-bottom-margin-both-10-after public_data">
+					<span class="H-icon H-vertical-middle H-padding-horizontal-left-10"><i class="H-iconfont H-icon-phone H-font-size-18 H-vertical-middle H-theme-font-color-999"></i></span>
+					<input type="username" id="username" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-15 H-theme-background-color-transparent"  placeholder="请输入手机号码" />
+				</div>
+				<div class="H-flexbox-horizontal H-border-vertical-bottom-margin-both-10-after public_data">
+					<span class="H-icon H-vertical-middle H-padding-horizontal-left-10"><i class="H-iconfont H-icon-lock H-font-size-18 H-vertical-middle H-theme-font-color-999"></i></span>
+					<input type="password" id="password" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-15 H-theme-background-color-transparent" placeholder="请输入密码" />
+				</div>
+				<div class="H-flexbox-horizontal H-border-vertical-bottom-after public_data">
+					<span class="H-icon H-vertical-middle H-padding-horizontal-left-10"><i class="H-iconfont H-icon-lock H-font-size-18 H-vertical-middle H-theme-font-color-999"></i></span>
+					<input type="password" id="password2" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-15 H-theme-background-color-transparent" placeholder="请再次输入密码" />
+				</div>
+
+				<div class="H-flexbox-horizontal H-border-vertical-bottom-after public_data">
+					<span class="H-icon H-vertical-middle H-padding-horizontal-left-10"><i class="H-iconfont H-icon-user H-font-size-18 H-vertical-middle H-theme-font-color-999"></i></span>
+					<input type="text" id="yaoqingcode" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-15 H-theme-background-color-transparent" placeholder="请输入邀请码（选填）" />
+				</div>
+
+				<div class="H-flexbox-horizontal H-border-vertical-bottom-margin-both-10-after public_data">
+					<span class="H-icon H-vertical-middle H-padding-horizontal-left-10"><i class="H-iconfont H-icon-msg H-font-size-18 H-vertical-middle H-theme-font-color-999"></i></span>
+					<input type="code" id="code" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-15 H-theme-background-color-transparent" placeholder="请输入短信验证码" />
+					<a id="sendSms" class="H-vertical-middle H-padding-horizontal-right-10  H-theme-font-color1 H-font-size-14" onclick="sendSms(this)">获取验证码</a>
+				</div>
+
+				<div class="H-flexbox-horizontal H-border-vertical-bottom-after" style="padding:10px 2px;">
+					<span style="margin-right:10px;">会员类型</span>
+					<label for="user_type_2"><input type="radio" name="user_type" checked value="2" id='user_type_2'>普通会员</label>&nbsp;&nbsp;&nbsp;
+					<label for="user_type_1">&nbsp;&nbsp;&nbsp;<input type="radio" name="user_type" value="1" id='user_type_1'>商家会员</label>
+				</div>
+
+
+				<table  id="stores" style="backgrund:transprent;display:none;">
+					<tr>
+						<td style="width:100px;">公司名称</td>
+						<td>
+						<input type="text" name="corporation" placeholder="请输入公司名称..." value="" class="btn-sm  m-tp-10">
+						</td>
+					</tr>
+
+					<tr>
+						<td>类&nbsp;&nbsp;型</td>
+						<td>
+						<label for="merchant_type_1"><input type="radio"  name="merchant_type" value='1' checked id="merchant_type_1"/> 个体</label>
+						<label for="merchant_type_2"> <input type="radio"  name="merchant_type" value="2" id="merchant_type_2" />企业</label>
+						</td>
+					</tr>
+
+					<tr>
+						<td>信用代码</td>
+						<td >
+						<input type="text" name="card" placeholder="请输入信用代码..." value="" class="btn-sm  m-tp-10">
+						</td>
+					</tr>
+
+					<tr>
+						<td>法人代表</td>
+						<td >
+						<input type="text" name="real_name" placeholder="请输入法人代表..." value="" class="btn-sm  m-tp-10">
+						</td>
+					</tr>
+
+					<tr>
+						<td>联系手机</td>
+						<td >
+						<input type="number" name="office_phone" placeholder="请输入手机号..." value="" >
+						</td>
+					</tr>
+
+					<tr>
+						<td>营业执照</td>
+						<td >
+						<input type="file" name="business" id="business" placeholder="上传营业执照..." onchange="updateimage(this,'business_card','show_image',772,1371);">
+						<input type="hidden" name="business_card" id="business_card">
+						</td>
+					</tr>
+
+					<tr style="border:0px;">
+						<td></td>
+						<td id="show_image"></td>
+					</tr>
+
+					<tr>
+						<td>营业地址</td>
+						<td >
+						<select name="country" id="country" onchange="regions_list(1, this, 'province')" class="address_select">
+						<option value="0">选择国家</option><option value="1">中国</option></select>
+
+						<select name="province" id="province" onchange="regions_list(2, this, 'city')" class="address_select"><option value="0">选择省</option></select>
+
+						<select name="city" id="city" onchange="regions_list(3, this, 'district')" class="address_select"><option value="0">选择市</option></select>
+						<select name="district" id="district"  class="address_select"><option value="0">选择区</option></select>
+						</td>
+					</tr>
+
+					<tr>
+						<td>详细地址</td>
+						<td ><input type="text" name="address" id="address" placeholder="详细地址..." ></td>
+					</tr>
+
+				</table>
+
+
+				<div class="H-padding-15 H-margin-vertical-top-10">
+					<button class="H-button H-width-100-percent  H-font-size-15 H-outline-none H-padding-vertical-both-15 H-padding-horizontal-both-20 H-theme-background-color9 H-theme-font-color-white H-theme-border-color9 H-theme-border-color9-click H-theme-background-color9-click H-theme-font-color9-click H-border-radius-3" onclick ="register()">提交注册</button>
+				</div>
+				<div class="H-margin-horizontal-both-15" style="display:none;">
+					<span class="H-theme-font-color1 H-float-left H-font-size-14">
+						<input type="checkbox" class="H-checkbox H-checkbox-null H-vertical-align-middle H-font-size-18 H-theme-font-color1 H-border-radius-circle" checked="checked" style="-webkit-transform: scale(0.6); -webkit-transform-origin: 0 38%;" />
+						<label style="position:relative;left:-10px;">《用户注册协议》</label></span>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../script/jquery.min.js"></script>
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/common.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" defer></script>
+		<script type="text/javascript">
+			var smsVerify = null;
+			var isExist = null;
+			apiready = function() {
+				smsVerify = api.require('smsVerify');
+				// 初始化
+				registersms();
+			};
+			// 注册，初始化
+			function registersms() {
+				smsVerify.register(function(ret, err) {
+					if (ret.status) {
+						console.log('短信服务注册成功');
+					} else {
+						api.alert({
+							msg : err.code + ' 短信服务注册失败'
+						});
+					}
+				});
+			}
+
+			function sendSms(o) {
+
+				setTimeout(function() {
+					var username = $api.byId("username").value;
+					if (_checkPhone(username)) {
+						var password = $api.byId('password').value;
+						var password2 = $api.byId('password2').value;
+						if (password == null || password !== password2) {
+							api.alert({
+								msg : '密码为空或两次密码不一致'
+							}, function(ret, err) {
+								return;
+							});
+							return;
+						}
+						time(o);
+						smsVerify.sms({
+							phone : username,
+						}, function(ret, err) {
+							if (ret.status) {
+								api.toast({
+									msg : '短信发送成功'
+								});
+							} else {
+								api.toast({
+									msg : JSON.stringify(err)
+								});
+							}
+						});
+					} else {
+						api.toast({
+							msg : '手机号输入有误！'
+						});
+					}
+				}, 1000)
+			};
+			var wait = 60;
+			function time(o) {
+				if (wait == 0) {
+					o.onclick = function() {
+						sendSms(o);
+					}
+					o.innerHTML = "获取验证码";
+					wait = 60;
+				} else {
+					o.onclick = function() {
+						return false;
+					};
+					o.innerHTML = "重新发送(" + wait + ")";
+					wait--;
+					setTimeout(function() {
+						time(o)
+					}, 1000)
+				}
+			}
+
+			function register(){
+				var username = $api.byId("username").value;
+				var password = $api.byId('password').value;
+				var password2 = $api.byId('password2').value;
+				if(GetLength(password)<6){
+					_toast('密码长度少于6位数！');
+				}else if(password != password2){
+					_toast('两次密码输入不同！');
+				}else if(validatemobile(username)){
+					_toast('请输入正确手机号！');
+				}else{
+				url_get = api_url + 'register.php?act=is_username';
+				url_encoded = encodeURI(url_get);
+				var data={username:username};
+				_ajax(url_encoded, "get", {
+					values :data
+				}, "json", function(ret) {
+					api.hideProgress();
+					if (ret.error == 1) {
+						alert(ret.content);return;
+					}else{
+						var user_type=$("input[name='user_type']:checked").val();
+
+						if(user_type==1){
+
+						var corporation=$("input[name='corporation']").val();
+							if(!corporation||corporation==''){
+								return alert('请输入公司名称...');
+							}
+
+						var card=$("input[name='card']").val();
+							if(!card||card==''){
+								return alert('请输入信用代码...');
+							}
+
+						var real_name=$("input[name='real_name']").val();
+							if(!real_name||real_name==''){
+								return alert('请输入法人姓名...');
+							}
+
+						var office_phone=$("input[name='office_phone']").val();
+							if(!office_phone||office_phone==''||office_phone.length!=11){
+								return alert('请输入联系电话...');
+							}
+
+						var business=$("input[name='business']").val();
+							if(!business||business==''){
+								return alert('请输入上传营业执照...');
+							}
+
+						var address=$("input[name='address']").val();
+							if(!address||address==''){
+								return alert('请输入详细地址...');
+							}
+
+						var country=$("#country").val();
+							if(!country||country==0){
+								return alert('请选择国家...');
+							}
+
+						var province=$("#province").val();
+							if(!province||province==0){
+								return alert('请选择省...');
+							}
+
+						var city=$("#city").val();
+							if(!city||city==0){
+								return alert('请选择市...');
+							}
+
+						var district=$("#district").val();
+							if(!district||district==0){
+								return alert('请选择区...');
+							}
+
+							// if(this.value!='提交注册'){
+							//
+							// 	alert('正在处理中，请稍后！');
+							// 	this.value='提交注册';return;
+							// }
+							//
+							// this.value='正在注册中';
+
+
+					}
+					return doregister();
+				}
+
+				});
+				}
+
+
+			}
+
+
+			function doregister() {
+				var username = $api.byId("username").value;
+				var password = $api.byId('password').value;
+				var yaoqingcode = $api.byId('yaoqingcode').value;
+				var code = $api.byId('code').value;
+				url_get = api_url + 'register.php?act=register';
+				url_encoded = encodeURI(url_get);
+				var user_type=$("input[name='user_type']:checked").val();
+				var data = {
+					username : username,
+					password : password,
+					yaoqingcode : yaoqingcode,
+					register_type : 'mobile',
+					user_type:user_type
+				};
+
+				if(user_type==1){
+
+						data.corporation=$("input[name='corporation']").val();
+
+						data.card=$("input[name='card']").val();
+
+						data.real_name=$("input[name='real_name']").val();
+
+						data.office_phone=$("input[name='office_phone']").val();
+
+						data.business_card=$("input[name='business_card']").val();
+
+						data.address=$("input[name='address']").val();
+
+						data.country=$("#country").val();
+
+						data.province=$("#province").val();
+
+						data.city=$("#city").val();
+
+						data.district=$("#district").val();
+
+					}
+
+				api.showProgress({
+					style : 'default',
+					animationType : 'fade',
+					title : '注册中...',
+					text : '请稍等...',
+					modal : false
+				});
+				smsVerify.verify({
+					phone : username,
+					code : code
+				}, function(ret, err) {
+					if (ret.status) {
+						_toast('手机验证成功');
+						_ajax(url_get, "post", {
+							values : data
+						}, "json", function(ret) {
+
+							api.hideProgress();
+							if (ret.error != 0) {
+								api.alert({
+									msg : ret.content
+								});
+							} else {
+								api.alert({
+									msg : '注册成功'
+								}, function(ret, err) {
+									api.closeWin();
+								});
+							}
+						});
+					} else {
+					api.hideProgress();
+						api.alert({
+							msg : err.msg
+						});
+					}
+				});
+			}
+		</script>
+	</body>
+<script>
+
+$("input[name='user_type']").click(function(obj){
+	var user_type=$("input[name='user_type']:checked").val();
+		var public=document.getElementsByClassName('public_data');
+		var stores=document.getElementById('stores');
+
+	if(user_type==1){
+		stores.style.display='';
+
+		for(var i=0;i<public.length;i++){
+			public[i].style.display='none';
+		}
+	}else{
+
+		stores.style.display='none';
+		document.getElementById('business').value='';
+		document.getElementById('business_card').value='';
+
+		for(var i=0;i<public.length;i++){
+			public[i].style.display='';
+		}
+	}
+
+});
+
+function regions_list(type=0,parent=0,id='country'){
+	parent=$(parent).val();
+
+	var data={'type':type,'parent':parent};
+
+	var url = share_host+"region.php";
+	var arr=[];
+	arr['province']='选择省';
+	arr['city']='选择市';
+	arr['district']='选择区';
+	if(id=='province'){
+		$('#province').html(`<option value="0">选择省</option>`);
+		$('#city').html(`<option value="0">选择市</option>`);
+	}
+
+	if(id=='city'||id=='province'){
+
+		$('#city').html(`<option value="0">选择市</option>`);
+
+	}
+
+	$('#district').html(`<option value="0">选择区</option>`);
+
+	$.post(url,data,function(da){
+		da=JSON.parse(da);
+		if(da['regions'].length>0){
+
+
+			var html=``;
+
+			for(var i in da['regions']){
+
+			html+=`<option value="${da['regions'][i]['region_id']}">${da['regions'][i]['region_name']}</option>`;
+
+			}
+
+			$("#"+id).append(html);
+
+		}
+
+	});
+
+}
+
+//上传图片
+function updateimage(obj,imgid,show,whidth,height){
+
+	// 压缩图片需要的一些元素和对象
+	var reader = new FileReader();
+
+	// 选择的文件对象
+	var file = null;
+
+	// 缩放图片需要的canvas
+	var canvas = document.createElement('canvas');
+		canvas.display='none';
+	var context = canvas.getContext('2d');
+
+	img=new Image();
+
+	// base64地址图片加载完毕后
+	img.onload = function(){
+
+	    // 图片原始尺寸
+	    var originWidth = this.width;
+
+	    var originHeight = this.height;
+
+	    // 最大尺寸限制
+	    var maxWidth = whidth, maxHeight = height;
+
+	    // 目标尺寸
+	    var targetWidth = originWidth, targetHeight = originHeight;
+
+	    // 图片尺寸超过400x400的限制
+	    if (originWidth > maxWidth || originHeight > maxHeight) {
+	        if (originWidth / originHeight > maxWidth / maxHeight) {
+	            // 更宽，按照宽度限定尺寸
+	            targetWidth = maxWidth;
+	            targetHeight = Math.round(maxWidth * (originHeight / originWidth));
+	        } else {
+	            targetHeight = maxHeight;
+	            targetWidth = Math.round(maxHeight * (originWidth / originHeight));
+	        }
+	    }
+
+	    // canvas对图片进行缩放
+	    canvas.width = targetWidth;
+
+	    canvas.height = targetHeight;
+
+	    // 清除画布
+	    context.clearRect(0, 0, targetWidth, targetHeight);
+	    // 图片压缩
+	    context.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+	    var src=canvas.toDataURL("image/png",1);
+	    document.getElementById(imgid).value=src;
+
+	    if(show!=''){
+	    	document.getElementById(show).innerHTML="<img src='"+src+"' width='108' height='192'>";
+	    }
+
+	}
+
+		// 文件base64化，以便获知图片原始尺寸
+		reader.onload = function(e) {
+
+		    img.src = e.target.result;
+		};
+
+	    file = obj.files[0];
+	    // 选择的文件是图片
+	    if (file.type.indexOf("image") == 0) {
+	        reader.readAsDataURL(file);
+	    }
+
+}
+
+
+
+
+</script>
+
+
+
+</html>

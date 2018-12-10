@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<style type="text/css"></style>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" type="text/css" href="../../css/public.css">
+		<link rel="stylesheet" type="text/css" href="../../css/user.css">
+		<link rel="stylesheet" type="text/css" href="../../css/aui2.css">
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+	</head>
+	<body class="body_bj">
+		<div id="tbh5v0">
+			<div id="addresslistbody"></div>
+		</div>
+		<script>
+			apiready = function() {
+				api.parseTapmode();
+				_showProgress();
+				getaddresslist();
+				_setRefreshHeaderInfo(function(ret, err) {
+					getaddresslist();
+				})
+			}
+			function getaddresslist() {
+				_ajax(api_url + "user.php?act=account_detail", "get", "{}", "json", function(ret) {
+					api.hideProgress();
+					
+					document.getElementById('addresslistbody').innerHTML = ret.content;
+					api.refreshHeaderLoadDone();
+				});
+			}
+		</script>
+
+	</body>
+</html>

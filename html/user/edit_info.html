@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<style type="text/css"></style>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" type="text/css" href="../../css/ecsmart.css">
+		<link rel="stylesheet" type="text/css" href="../../css/public.css">
+		<link rel="stylesheet" type="text/css" href="../../css/user.css">
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<!-- <script type="text/javascript" src="../../js/utils.js"></script>
+ -->
+		<script type="text/javascript" src="../../js/user.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/template.js"></script>
+		<!-- <script type="text/javascript" src="../../js/shopping_flow.js"></script> -->
+	</head>
+	<body >
+		<div id="addresslistbody"></div>
+		<button style='margin:0px auto;border:none;width:80%;background:red;padding:10px 0px;display:none;font-size:18px;color:white' tapmode onclick='api.closeWin();' id='validata'>去认证</button>
+		<script>
+			apiready = function() {
+				api.parseTapmode();
+				getaddresslist(api.pageParam.url);
+				_setRefreshHeaderInfo(function(ret, err) {
+					getaddresslist(api.pageParam.url);
+				})
+
+			}
+			//获取类容
+			function getaddresslist(url) {
+				_showProgress();
+				_ajax(api_url + url, "get", "{}", "json", function(ret) {
+					api.hideProgress();
+					//alert(JSON.stringify(ret.content));
+					if(ret.error==301){
+						needLogin();return;
+					}else if(ret.error==400){
+
+						document.getElementById('validata').style.display="block";
+					}
+					document.getElementById('addresslistbody').innerHTML = ret.content;
+					_executeScript(ret.content)
+					api.refreshHeaderLoadDone();
+				});
+				initprofile();
+			}
+
+			function initprofile() {
+				$('.name1 ul li').click(function() {
+					$(this).find("input").attr("checked", "checked");
+					$('.name1 ul li').removeClass("on");
+					$(this).addClass("on");
+				})
+			}
+			//编辑资料
+			function edit_profile() {
+				var formdata = $("#edit_profile").serialize();
+				//var formdata =new FormData(document.getElementById('edit_profile'));//$("#edit_profile");
+				_showProgress();
+				_ajax(api_url + "user.php?act=act_edit_profile&"+ formdata, "post",{}, "json", function(ret) {
+					api.hideProgress();
+					_alert(ret.content);
+					window.location.reload();
+					api.refreshHeaderLoadDone();
+				});
+			}
+
+			function edit_password() {
+				var formdata = $("#formPassword").serialize();
+				_showProgress();
+				_ajax(api_url + "user.php?act=act_edit_password&" + formdata, "get", {
+				}, "json", function(ret) {
+					api.hideProgress();
+					if(ret.error == 0){
+						_alert(JSON.stringify(ret.content));
+					}else{
+						_alert(JSON.stringify(ret.message));
+					}
+
+					api.refreshHeaderLoadDone();
+				});
+			}
+
+			function validate_comment() {
+				var content = $("#content_13").val();
+				var error = [];
+				$(".jsstar input").each(function(index) {
+					if (this.value == '0') {
+						if (this.name == 'comment_rank') {
+							error.push('请给描述评分！');
+						};
+						if (this.name == 'server') {
+							error.push('请给服务评分！');
+						};
+						if (this.name == 'send') {
+							error.push('请给发货评分！');
+						};
+						if (this.name == 'shipping') {
+							error.push('请给物流评分！');
+						};
+					}
+				});
+				if (content.trim() == '') {
+					error.push('评价内容不能为空！');
+				}
+				if (error.length > 0) {
+					alert(error);
+				} else {
+					var formdata = $("#edit_profile").serialize();
+					//_alert(formdata);
+					_showProgress();
+					_ajax(api_url + "user.php?act=act_edit_profile&" + formdata, "get", {
+					}, "json", function(ret) {
+						api.hideProgress();
+						_alert(JSON.stringify(ret));
+						api.refreshHeaderLoadDone();
+					});
+				}
+			}
+
+			//发送验证码
+			function send_mobile_code(mobileCodeObj, sendButton) {
+				// 发送短信验证码
+				var url = api_url + "user.php?XDEBUG_SESSION_START=ECLIPSE_DBGP";
+				$.post(url, {act: 'send_mobile_code',mobile_phone:$('#mobile_phone').val()}, function(result) {
+					console.log(result);
+					if (result == 'ok') {
+						//倒计时
+						countdown(sendButton);
+					} else {
+						alert(result);
+					}
+				}, 'text');
+		}
+
+		//发送认证短信
+		function send_mobile_validata(sendButton) {
+			// 发送短信验证码
+			var url = api_url + "validate.php";
+			$.post(url, {act: 'send_mobile_code'}, function(result) {
+
+				if (result == 'ok') {
+					//倒计时
+					countdown(sendButton);
+				} else {
+					alert(result);
+				}
+
+			});
+	}
+
+		</script>
+	</body>
+</html>

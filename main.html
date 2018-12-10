@@ -1,0 +1,342 @@
+<!DOCTYPE html >
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+		<link rel="stylesheet" type="text/css" href="css/public.css"/>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+		<link rel="stylesheet" type="text/css" href="css/sy.css"/>
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css"/>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="script/api.js"></script>
+		<script type="text/javascript" src="script/config.js"></script>
+		<script type="text/javascript" src="script/winu-base.js"></script>
+		<script type="text/javascript" src="script/main.js"></script>
+		<script type="text/javascript" src="script/vue.js"></script>
+		<script type="text/javascript" src="script/swiper.min.js"></script>
+	</head>
+	<body>
+		<div>
+			<div id="getindex">
+				<div v-show = "isshow">
+				<div class="aui-content" id="app">
+					<!--baner start-->
+					<div id='slider' class='swipe'>
+						<div class='swiper-wrapper'>
+							<div class="swiper-slide" v-for="vo in content.wap_index_ad">
+								<div  onclick="{{vo.url}}">
+								<img :src="vo.image"/>
+								</div>
+							</div>
+						</div>
+						<!-- Add Pagination -->
+						<div class="swiper-pagination"></div>
+					</div>
+					<!--baner end-->
+				</div>
+				<div class="entry-list clearfix">
+					<nav>
+						<ul>
+							<li  v-for= " item in content.menu_list">
+								<a onclick = "{{item.menu_url}}" > <img :src="item.menu_img" /> <span>{{item.menu_name}}</span> </a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+				<div class="hot" v-cloak>
+					<h3></h3>
+					<div class="article-container">
+						<ul id="mq" class="swiper-wrapper">
+							<li class="swiper-slide" v-for= " item in content.new_articles">
+								<a onclick ="openArticle({{item.id}})">{{item.short_title}}</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<section class="floor_body" v-cloak>
+					<h4><span>促销商品</span><i><a onclick="opentuangou()">更多</a></i></h4>
+					<div id="scroll_promotion" style=" background:#eeeeee">
+						<ul >
+							<div class="swiper-container">
+								<div class="swiper-wrapper">
+									<li v-for= " item in content.promotion_goods" class="swiper-slide">
+										<div class="index_pro">
+											<div class="products_kuang">
+												<div class="timerBox" id="jstimerBox0">
+													抢购中
+												</div>
+												<a onclick = "openGood({{item.id}})"> <img v-bind:src="item.thumb" ></a>
+											</div>
+											<div class="goods_name">
+												<a onclick = "openGood({{item.id}})">{{item.goods_style_name}}</a>
+											</div>
+											<div class="price">
+												<a class="btns">月销量：{{item.sales_volume_base}}</a>
+												<span>{{item.shop_price}}/{{item.measure_unit}}</span><em>{{item.market_price}}</em>
+											</div>
+										</div>
+									</li>
+								</div>
+							</div>
+						</ul>
+					</div>
+				</section>
+
+				<section class="index_floor">
+					<h4><span>新品上市</span></h4>
+					<div id="scroll_new" class="scroll_hot">
+						<div class="bd">
+							<ul>
+								<li v-for= "item in content.new_goods">
+									<div class="index_pro">
+										<div class="products_kuang">
+											<a onclick = "openGood({{item.id}})"> <img v-bind:src="item.thumb"> </a>
+										</div>
+										<div class="goods_name">
+											<a onclick = "openGood({{item.id}})">{{item.goods_style_name}}</a>
+										</div>
+										<div class="price">
+											<a class="btns">月销量：{{item.sales_volume_base}}</a>
+											<span>{{item.shop_price}}/{{item.measure_unit}}</span><em>{{item.market_price}}</em>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="hd">
+							<ul></ul>
+						</div>
+					</div>
+				</section>
+				<section class="index_floor">
+					<h4><span>热销商品</span></h4>
+					<div id="scroll_hot" class="scroll_hot">
+						<div class="bd">
+							<ul>
+								<li v-for= "item in content.hot_goods">
+									<div class="index_pro">
+										<div class="products_kuang">
+											<a onclick = "openGood({{item.id}})"> <img v-bind:src="item.thumb"> </a>
+										</div>
+										<div class="goods_name">
+											<a onclick = "openGood({{item.id}})">{{item.goods_style_name}}</a>
+										</div>
+										<div class="price">
+											<a class="btns">月销量：{{item.sales_volume_base}}</a>
+											<span>{{item.shop_price}}/{{item.measure_unit}}</span><em>{{item.market_price}}</em>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="hd">
+							<ul></ul>
+						</div>
+					</div>
+				</section>
+				<div class="floor_body2" >
+					<h2>————&nbsp;精品推荐&nbsp;————</h2>
+					<div id="J_ItemList">
+						<div id = "jingpinglist"></div>
+					</div>
+				</div>
+				</div>
+
+			</div>
+			<script type="text/javascript"></script>
+			<script type="text/javascript">
+				var vm = new Vue({
+					el : "#getindex",
+					data : {
+						error : 1,
+						content : '',
+						isshow:false
+					}
+				});
+				apiready = function() {
+					var amount = 4;
+					var begin = 0;
+					$api.setStorage('bestgood_last', begin);
+					api.parseTapmode();
+					getIndex();
+					_setRefreshHeaderInfo(function(ret, err) {
+						getIndex();
+					})
+					api.addEventListener({
+						name : 'scrolltobottom'
+					}, function(ret, err) {
+						ajax_getbestgoods(amount);
+					});
+				}
+
+				function getIndex() {
+					_showProgress();
+					_ajax(api_url + 'jsonindex.php', "post", {
+						values : ldata
+					}, "json", function(ret) {
+						api.hideProgress();
+						if (ret.content) {
+							vm.error = 0;
+							vm.content = ret.content;
+							vm.isshow = true;
+						}
+						api.hideProgress();
+						api.refreshHeaderLoadDone();
+					});
+				}
+
+				var slider = new Swiper('#slider', {
+					autoplay : 3000,
+					visibilityFullFit : true,
+					loop : true,
+					pagination : '.swiper-pagination',
+					paginationClickable : true,
+					observer : true, //修改swiper自己或子元素时，自动初始化swiper
+					observeParents : true,//修改swiper的父元素时，自动初始化swiper
+				});
+				var mySwiper1 = new Swiper('.swiper-container', {
+					autoplay : 1000, //可选选项，自动滑动
+					slidesPerView : 3,
+					observer : true, //修改swiper自己或子元素时，自动初始化swiper
+					observeParents : true,//修改swiper的父元素时，自动初始化swiper
+				});
+				function ajax_getbestgoods(amount) {
+					var url = api_url + 'index_bestgoods.php?act=ajax';
+					var last = parseInt($api.getStorage('bestgood_last'));
+					var data = {
+						amount : amount,
+						last : last
+					};
+					_showProgress()
+					_ajax(url, "post", {
+						values : data
+					}, "json", function(ret) {
+						//_alert(ret);
+						if (ret.content == '') {
+							api.hideProgress();
+							_toast('没有更多产品！');
+						} else {
+							$.each(ret.content, function(i, item) {
+								//alert(item.info);
+								$('#jingpinglist').append(item.info);
+							})
+							api.hideProgress();
+							$api.setStorage('bestgood_last', amount + last);
+						}
+					});
+				}
+			</script>
+		</div>
+		<script>
+			function openGood(gid) {
+				//alert(gid);
+				api.openWin({
+					name : 'good',
+					url : 'html/product/good_win.html',
+					pageParam : {
+						id : gid
+					},
+					bounces:false
+				});
+			}
+
+			function opencatalog() {
+				api.setFrameGroupIndex({
+					name : 'footer_tab',
+					index : 1,
+					scroll : true,
+					reload : false
+				});
+			}
+
+			function switchtouc() {
+				api.setFrameGroupIndex({
+					name : 'footer_tab',
+					index : 3,
+					scroll : true,
+					reload : true
+				});
+			}
+
+			function switchtocart() {
+				api.setFrameGroupIndex({
+					name : 'footer_tab',
+					index : 2,
+					scroll : true,
+					reload : true
+				});
+			}
+
+			function opensupplier() {
+				api.openWin({
+					name : 'supplier',
+					url : 'html/supplier/supplier_win.html'
+				});
+			}
+
+			function opentuangou() {
+				api.openWin({
+					name : 'tuangou',
+					url : 'html/tuangou/tuangou_win.html'
+				});
+			}
+
+			function openArticle(id) {
+				if (id) {
+					api.openWin({
+						name : 'article',
+						url : 'html/article/article_win.html',
+						pageParam : {
+							id : id
+						}
+					});
+				} else {
+					_alert('id不存在');
+				}
+			}
+
+			function articlelist(id) {
+				if (id) {
+					api.openWin({
+						name : 'articlecat',
+						url : 'html/article/articlecat_win.html',
+						pageParam : {
+							id : id
+						}
+					});
+				} else {
+					_alert('id不存在');
+				}
+			}
+
+			function tuangou() {
+				api.openWin({
+					name : 'tuangou',
+					url : 'html/tuangou/tuangou_win.html'
+				});
+			}
+
+			function exchange() {
+				api.openWin({
+					name : 'exchangelist',
+					url : 'html/exchange/exchangelist_win.html'
+				});
+			}
+
+			function cate(cid,cname) {
+				api.openWin({
+					name : 'category',
+					url : 'html/product/category_win.html',
+					pageParam : {
+						cid : cid,
+						cname:cname
+					}
+				});
+			}
+		</script>
+	</body>
+</html>

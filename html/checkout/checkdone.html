@@ -1,0 +1,180 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" href="../../css/public.css">
+		<link rel="stylesheet" href="../../css/flow.css">
+		<link rel="stylesheet" href="../../css/aui2.css">
+		<link rel="stylesheet" href="../../css/style_jm.css">
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../js/ecsmart.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/utils.js"></script>
+		<script type="text/javascript" src="../../js/shopping_flow.js"></script>
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../script/exeinnerjs.js"></script>
+		<script type="text/javascript" src="../../script/flow.js"></script>
+	</head>
+	<body style="background:#e5e5e5;">
+		<div id="dingdantjbody"></div>
+		<script type="text/javascript" src="../../js/order_pickpoint.js"></script>
+		<script>
+			apiready = function() {
+				tjcontent = api.pageParam.tjcontent;
+				if (tjcontent) {
+					document.getElementById('dingdantjbody').innerHTML = tjcontent;
+					api.closeWin({
+						name : 'checkout'
+					});
+				}
+			}
+		</script>
+		<script>
+			function checkpay(amount, orderno) {
+				var channel = $('input:radio[name=pay]:checked').val();
+				api.showProgress({
+					style : 'default',
+					animationType : 'fade',
+					title : '支付准备中...',
+					text : '请稍等...',
+					modal : false
+				});
+				if (channel == 'alipay') {
+					alipay(amount, orderno);
+					api.hideProgress();
+				}
+
+				if (channel == 'wx') {
+					wxpay(amount, orderno);
+					api.hideProgress();
+				}
+			}
+
+			function alipay(amount, orderno) {
+
+				var aliPay = api.require('aliPay');
+				aliPay.pay({
+					subject :'菜云订单' + orderno,
+					body : '菜云订单' + orderno,
+					amount : amount,
+					tradeNO : orderno,
+					rsa2: true
+
+				}, function(ret, err) {
+					if (ret.code == 9000) {
+						$.get(alipay_not_url,{'order_type_code':0,'pay_log_id':orderno},function(obj){
+							obj=parseInt(obj);
+							if(obj==200){
+								api.alert({
+									msg : "支付成功"
+								}, function(ret, err) {
+									_sendEvent('orderpaid');
+									_openWin('orderlist', '../user/orderlist_win.html');
+									setTimeout('api.closeWin()', 800);
+								});
+							}
+						});
+
+					} else {
+						api.alert({
+							msg : "支付失败"+ret.code
+						}, function(ret, err) {
+							//coding...
+						});
+					}
+				});
+			}
+
+
+			function wxpay(amount, orderno){
+			var wxPay = api.require('wxPay');
+				wxPay.config({
+
+				}, function(ret, err) {
+					if (ret.status) {
+						wxPay.pay({
+							description : '订单支付',
+							totalFee :amount*100,
+							tradeNo : orderno,
+
+						}, function(ret, err) {
+							if (ret.status) {
+								//'ret'+ret.result
+								alert('支付成功');
+							} else {
+								alert('支付失败'+err.code);
+							}
+						});
+					} else {
+						api.alert({
+							msg : '支付错误'
+						});
+					}
+				});
+			}
+
+			function checkpay1(amount, orderno) {
+				var channel = $('input:radio[name=pay]:checked').val();
+				var pingpp = api.require('pingpp');
+				api.showProgress({
+					style : 'default',
+					animationType : 'fade',
+					title : '支付准备中...',
+					text : '请稍等...',
+					modal : false
+				});
+				_ajax(api_url + 'user.php?pay=' + channel + '&act=act_edit_payment1&pay_id=' + orderno + '&amount=' + amount, 'get', {
+				}, 'json', function(ret) {
+					if (ret.error == 1) {
+						api.alert({
+							msg : ret.content
+						});
+					} else {
+						api.hideProgress();
+						var params = {
+							charge : ret,
+							scheme : scheme
+						};
+						if (ret.code == 3) {
+							_alert('非法支付');
+						} else {
+							pingpp.createPayment(params, function(ret, err) {
+								if (ret.result == "success") {
+									api.alert({
+										msg : "支付成功"
+									}, function(ret, err) {
+										_sendEvent('orderpaid');
+										_openWin('orderlist', '../user/orderlist_win.html');
+										setTimeout('api.closeWin()', 800);
+									});
+								} else if (ret.result == "fail") {
+									api.alert({
+										msg : "支付失败"
+									});
+								} else if (ret.result == "cancel") {
+									api.alert({
+										msg : "支付中途取消"
+									});
+								} else if (ret.result == "invalid") {
+									api.alert({
+										msg : "非法支付"
+									});
+								}
+							});
+						}
+					}
+				});
+			}
+		</script>
+		<script>
+			function openorder() {
+				_openWin('orderlist', '../user/orderlist_win.html');
+				setTimeout('api.closeWin()', 1000);
+			}
+		</script>
+	</body>
+</html>

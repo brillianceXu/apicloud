@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html>
+	<style type="text/css" ></style>
+	<head>
+		<meta name="viewport" content="width=device-width">
+		<meta content="telephone=no" name="format-detection" />
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" type="text/css" href="../../css/public.css">
+		<link rel="stylesheet" type="text/css" href="../../css/user.css">
+		<link rel="stylesheet" type="text/css" href="../../css/aui2.css">
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../js/TouchSlide.1.1.js"></script>
+		<script type="text/javascript" src="../../js/touchslider.dev.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/lefttime.js"></script>
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../script/order.js"></script>
+		<style>
+			.od {
+				margin-top: 10px;
+				border-top: 1px solid #ddd;
+			}
+			.od li {
+				display: block;
+				line-height: 1.8 rem;
+				overflow: hidden;
+				background-color: #fff;
+				border-bottom: 1px solid #eaeaea;
+				padding: 10px 10px 10px 0;
+			}
+			.od li a {
+				width: 100%;
+				display: block;
+				height: 8rem;
+			}
+			.lr10 {
+				padding: 0 10px;
+			}
+			.red, a.red {
+				color: #dd2727;
+			}
+		</style>
+	</head>
+	<body style="cursor: auto;">
+		<div id = 'orderbody'>
+			<div style="width:30%;margin:0 auto;padding-top: 200px">
+				<img width = '120px' src="../../images/loading.gif" />
+			</div>
+		</div>
+	</body>
+	<script>
+		apiready = function() {
+			api.parseTapmode();
+			//_showProgress();
+			getorder();
+			api.addEventListener({
+				name : 'cancelordered'
+			}, function(ret, err) {
+				_showProgress();
+				getorder();
+			});
+			api.addEventListener({
+				name : 'orderaffirmed'
+			}, function(ret, err) {
+				_showProgress();
+				getorder();
+			});
+			api.addEventListener({
+				name : 'orderpaid'
+			}, function(ret, err) {
+				_showProgress();
+				getorder();
+			});
+			_setRefreshHeaderInfo(function(ret, err) {
+				getorder();
+			})
+		}
+		function getorder() {
+			//now_time =  Date.parse(new Date());
+			oid = api.pageParam.id;
+			orderId = oid;
+			url_get = api_url + "user.php?act=order_detail&order_id=" + oid;
+			_ajax(url_get, "get", "{}", "json", function(ret) {
+				api.hideProgress();
+				//alert(JSON.stringify(ret.content));
+				document.getElementById('orderbody').innerHTML = ret.content;
+				_executeScript(ret.content);
+				api.refreshHeaderLoadDone();
+			});
+		}
+	</script>
+	<script>
+		function usesurplus() {
+			formdata = $('#formFee').serialize();
+			_showProgress();
+			_ajax(api_url + 'user.php?' + formdata, 'get', {
+			}, 'json', function(ret) {
+				api.hideProgress();
+				if (ret.content == 'paid') {
+					_toast('使用余额成功');
+					_sendEvent('orderpaid');
+				} else {
+					_alert(ret.content);
+				}
+			});
+		}
+
+		function checkpay() {
+			formdata = $('#payment').serialize();
+			var pingpp = api.require('pingpp');
+			api.showProgress({
+				style : 'default',
+				animationType : 'fade',
+				title : '支付准备中...',
+				text : '请稍等...',
+				modal : false
+			});
+			_ajax(api_url + 'user.php?' + formdata, 'get', {
+			}, 'json', function(ret) {
+				api.hideProgress();
+				var params = {
+					charge : ret,
+					scheme : scheme
+				};
+				pingpp.createPayment(params, function(ret, err) {
+					if (ret.result == "success") {
+						api.alert({
+							msg : "支付成功"
+						}, function(ret, err) {
+							_sendEvent('orderpaid');
+						});
+					} else if (ret.result == "fail") {
+						api.alert({
+							msg : "支付失败"
+						});
+					} else if (ret.result == "cancel") {
+						api.alert({
+							msg : "支付中途取消"
+						});
+					} else if (ret.result == "invalid") {
+						api.alert({
+							msg : "非法支付"
+						});
+					}
+				});
+			});
+		}
+
+
+		function getPay(amount, orderno) {
+			var channel = $('input:radio[name=pay]:checked').val();
+			//alert(channel);
+			api.showProgress({
+				style : 'default',
+				animationType : 'fade',
+				title : '支付准备中...',
+				text : '请稍等...',
+				modal : false
+			});
+			if (channel == 'alipay') {
+				alipay(amount, orderno);
+				api.hideProgress();
+			}
+
+			if (channel == 'wx') {
+				wxpay(amount, orderno);
+				api.hideProgress();
+			}
+		}
+
+		function alipay(amount, orderno) {
+
+			var aliPay = api.require('aliPay');
+			aliPay.pay({
+				subject :'菜云订单' + orderno,
+				body : '菜云订单' + orderno,
+				amount : amount,
+				tradeNO : orderno,
+				rsa2: true
+
+			}, function(ret, err) {
+
+				if (ret.code == 9000) {
+					$.get(alipay_not_url,{'order_type_code':1,'pay_log_id':orderno},function(obj){
+						obj=parseInt(obj);
+						if(obj==200){
+							api.alert({
+								msg : "支付成功"
+							}, function(ret, err) {
+								_sendEvent('orderpaid');
+								_openWin('orderlist', '../user/orderlist_win.html');
+								setTimeout('api.closeWin()', 800);
+							});
+							}
+					});
+
+
+
+				} else {
+					api.alert({
+						msg : "支付失败"+ret.code
+					}, function(ret, err) {
+						//coding...
+					});
+				}
+			});
+		}
+
+
+		function wxpay(amount, orderno){
+		var wxPay = api.require('wxPay');
+			wxPay.config({
+
+			}, function(ret, err) {
+				if (ret.status) {
+					wxPay.pay({
+						description : '订单支付',
+						totalFee :amount*100,
+						tradeNo : orderno,
+
+					}, function(ret, err) {
+						if (ret.status) {
+							alert('ret'+ret.result);
+						} else {
+							alert('error'+JSON.stringify(err));
+						}
+					});
+				} else {
+					api.alert({
+						msg : '支付错误' + err.code
+					});
+				}
+			});
+		}
+
+
+
+	</script>
+</html>

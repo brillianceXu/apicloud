@@ -1,0 +1,207 @@
+<!DOCTYPE html >
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+		<link rel="stylesheet" href="../../css/public.css">
+		<link rel="stylesheet" href="../../css/flow.css">
+		<link rel="stylesheet" href="../../css/style_jm.css">
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/utils.js"></script>
+		<script type="text/javascript" src="../../js/shopping_flow.js"></script>
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../script/exeinnerjs.js"></script>
+		<script type="text/javascript" src="../../script/flow.js"></script>
+		<script type="text/javascript" src="../../script/vue.js"></script>
+	</head>
+	<body style="background:#e5e5e5;">
+		<div id ="cartbody">
+			<section  v-show= "isnone">
+				<div class="qb_tac" style="padding:50px 0">
+					<img src="../../images/flow/empty_cart.png" width="100" height="95">
+					<br>
+					购物车还是空的
+				</div>
+				<div class="qb_gap" style="width:60%; margin:0 auto;">
+					<a onclick = "_switchhome()" class="mod_btn btn_strong" >马上逛逛</a>
+				</div>
+			</section>
+			<form id="formCart" name="formCart" >
+				<div class="folw_shopmain"  v-for= "(index,item) in content.goods_list">
+					<div class="shopmain_title">
+						<dl>
+							<input type="checkbox" autocomplete="off"  checked=checked class="f_checkbox f_pub_checkbox f_pub_checkbox_{{index+1}}"  style=" margin-top:10px; margin-left:10px; ">
+							<dt>
+								<input type="hidden" name="supplierid" id="supplierid" value="{$key}">
+								<a class="shopLink eclipse" onclick = "_openSupplierHome({$key})">{{item.supplier_name}}</a>
+							</dt>
+							<dd>
+								<a class="shopLink edit_btn" name="{{index+1}}" onclick="bianjicart(this)">编辑</a>
+							</dd>
+						</dl>
+					</div>
+					<div class="item-list" id = "{{item.rec_id}}" v-for= "(index1,item1) in item.goods_list" >
+						<div class="inner">
+							<input type="checkbox" autocomplete="off" name="sel_cartgoods[]" value="{{item1.rec_id}}"
+							id="sel_cartgoods_{{item1.rec_id}}" checked=checked
+							class="f_checkbox check-wrapper check-wrapper-{{index+1}}" onclick="select_cart_goods()">
+							<div class="item_img">
+								<a v-if="item1.goods_thumb1" onclick = "_openGood({{item1.goods_id}})"> <img :src="item1.goods_thumb1"></a>
+								<img v-else src="../../images/flow/libao.png">
+							</div>
+							<!--没有点击编辑的内容-->
+							<div class="goods_desc edit_info_{{index+1}}" >
+								<dl>
+									<dt>
+										<span v-if="item1.is_gift > 0" style=" color:#E71F19">[赠品]&nbsp;&nbsp;</span>{{item1.goods_name}}
+									</dt>
+									<dd v-if = "item1.goods_attr">
+										{{item1.goods_attr}}
+									</dd>
+								</dl>
+								<div class="price">
+									<span>{{item1.goods_price}}</span><i>{{item1.market_price}}</i><em id="goods_numx_{{item1.rec_id}}">x{{item1.goods_number}}</em></span>
+								</div>
+							</div>
+							<!--点击编辑后切换的内容-->
+							<em >
+							<div class="num edit_box_{{index+1}}" style="display: none;">
+								<div class="qiehuan">
+									<div class="xm-input-number">
+										<a onclick="minus_num({{item1.rec_id}}, {{item1.goods_id}},{{index+1}},0);" id="jiannum{{item1.rec_id}}" class="input-sub active"></a>
+										<input type="text" name="goods_number[{{item1.rec_id}}]" id="goods_number_{{item1.rec_id}}" value="{{item1.goods_number}}" class="input-num" onblur="change_price({{item1.rec_id}}, {{item1.goods_id}},{{index+1}})">
+										<input type="hidden" id="hidden_{{item1.rec_id}}" value="{{item1.goods_number}}">
+										<a href="javascript:;" onclick="javascript:add_num({{item1.rec_id}}, {{item1.goods_id}},{{index+1}},0)" class="input-add"></a>
+									</div>
+								</div>
+								<div class="delete">
+									<a onclick = "_delRec({{item1.rec_id}})"> 删除 </a>
+								</div>
+							</div> </em>
+						</div>
+					</div>
+					<div class="flow_activity">
+						<a v-if = "discount"> <h2 id='discount_{$key}'><span v-html = "item.discount.your_discount"></span></h2></a>
+						<h3 v-if = "favourable" onclick="choose_gift(0)">选择赠品</h3>
+					</div>
+				</div>
+				<div style=" height:50px"></div>
+				<div class="flow_bottom">
+					<input type="hidden" name="step" value="update_cart">
+					<div class="quanxuan">
+						<div class="check-wrapper">
+							<span  class="cart-checkbox checked" onclick="chkAll_onclick()"></span><span class="cart-checktext">全选</span>
+						</div>
+					</div>
+					<div class="info">
+						<span class="hot" id="cart_amount_desc"><em>总计：</em>{{totalmoney}}元</span>
+					</div>
+					<div class="right">
+						<input type="button"  onclick="selcart_submit();" class="xm-button " value="去结算">
+					</div>
+				</div>
+			</form>
+		</div>
+		<section class="f_mask" style="display: none;"></section>
+		<section class="f_block" id="choose" style="height:0px;"></section>
+		<section class="f_block" id="choose_attr" style="height:0; overflow:hidden;"></section>
+		<script type="text/javascript">
+			vm = new Vue({
+				el : "#cartbody",
+				data : {
+					error : 1,
+					content : '',
+					isnone : false,
+					totalmoney : 0,
+					discount : 0
+				},
+				methods : {
+					alocked : function(item) {
+						var i2 = item;
+						console.log(i2);
+					}
+				}
+			});
+			apiready = function() {
+				api.parseTapmode();
+				//_showProgress();
+				getcartbody();
+				_setRefreshHeaderInfo(function(ret, err) {
+					getcartbody();
+				});
+				api.addEventListener({
+					name : 'checkdone'
+				}, function(ret, err) {
+					_showProgress();
+					getcartbody();
+				});
+				api.addEventListener({
+					name : 'choosegiftdone'
+				}, function(ret, err) {
+					_showProgress();
+					getcartbody();
+					close_choose();
+				});
+				api.addEventListener({
+					name : 'clearcartdone'
+				}, function(ret, err) {
+					vm.isnone = true;
+					$("#formCart").css("display", "none");
+				});
+			}
+			function getcartbody() {
+				_showProgress();
+				_ajax(api_url + "flow.php?step=jsoncart", "post", {
+					values : ldata
+				}, "json", function(ret) {
+					api.hideProgress();
+					//alert(JSON.stringify(ret.content));
+					//document.getElementById('cartbody').innerHTML = ret.content;
+					if (ret.error == 0) {
+						vm.error = 0;
+						vm.content = ret.content;
+						vm.totalmoney = ret.content.total.goods_amount;
+						vm.isnone = false;
+						if (ret.content.goods_list[0].discount) {
+							if (ret.content.goods_list[0].discount.discount > 0) {
+								vm.discount = true;
+							}
+						}
+						if (ret.content.goods_list[0].favourable) {
+							if (ret.content.goods_list[0].favourable) {
+								vm.favourable = true;
+							}
+						}
+					} else {
+						vm.isnone = true;
+						vm.totalmoney = 0;
+						vm.content = [];
+					}
+					initcart();
+					api.hideProgress();
+					api.refreshHeaderLoadDone();
+				});
+			}
+
+			function _switchhome() {
+				api.closeToWin({
+					name : 'root',
+					animation : {
+						type : 'flip',
+						subType : 'from_right',
+						duration : 500
+					}
+				});
+				api.setFrameGroupIndex({
+					name : 'footer_tab',
+					index : 0
+				});
+			}
+		</script>
+	</body>
+</html>

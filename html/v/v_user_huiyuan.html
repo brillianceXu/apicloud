@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" type="text/css" href="../../css/public.css">
+		<link rel="stylesheet" type="text/css" href="../../css/v_user.css">
+		<link href="../../css/swiper.min.css" rel="stylesheet">
+		<link href="../../css/style_swiper.css" rel="stylesheet">
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+	</head>
+	<body style=" background:#e5e5e5">
+		<div style = "margin-top:60px;"  id = "brandbody">
+			<div class="maple-tab clearFix" id = "fixtab" style = "position: fixed;top:0px;z-index:9999999;">
+				<ul>
+					<li class="active">
+						<p class="m-border-right" >
+						{{content.one_level_user_count}}
+						</p>
+						<p class="m-border-right" >
+							一级会员
+						</p>
+					</li>
+					<li>
+						<p class="m-border-right" >
+							{{content.two_level_user_count}}
+						</p>
+						<p>
+							二级会员
+						</p>
+					</li>
+					<li>
+						<p class="m-border-right" >
+							{{content.three_level_user_count}}
+						</p>
+						<p>
+							三级会员
+						</p>
+					</li>
+				</ul>
+			</div>
+			<div class="swiper-container">
+				<div class="swiper-wrapper" >
+					<div id="detail-desc" class="swiper-slide tab-content-1 m-desc">
+						<dl class="Member_more" v-for= "item in content.one_user_list"   >
+							<a >
+							<dd style="margin-left:20px;" >
+								<p>
+									会员名称：{{item.user_name}}
+								</p>
+								<p>
+									分成金额：<strong>￥{{item.split_money}}元</strong>
+								</p>
+								<p>
+									订单数量：{{item.order_count}}
+								</p>
+							</dd> </a>
+						</dl>
+						<div class="m-review" id="user_goods_ka_2" class="swiper-slide tab-content-1">
+							<div class="font_prompt">
+								没有更多会员哦！
+							</div>
+						</div>
+					</div>
+					<div id="detail-desc" class="swiper-slide tab-content-1 m-desc">
+						<dl class="Member_more" v-for= "item in content.two_user_list"   >
+							<a >
+							<dd style="margin-left:20px;" >
+								<p>
+									会员名称：{{item.user_name}}
+								</p>
+								<p>
+									分成金额：<strong>￥{{item.split_money}}元</strong>
+								</p>
+								<p>
+									订单数量：{{item.order_count}}
+								</p>
+							</dd> </a>
+						</dl>
+						<div class="m-review" id="user_goods_ka_2" class="swiper-slide tab-content-1">
+							<div class="font_prompt">
+								没有更多会员哦！
+							</div>
+						</div>
+					</div>
+					<div id="detail-desc" class="swiper-slide tab-content-1 m-desc">
+						<dl class="Member_more" v-for= "item in content.three_user_list"   >
+							<a >
+							<dd style="margin-left:20px;" >
+								<p>
+									会员名称：{{item.user_name}}
+								</p>
+								<p>
+									分成金额：<strong>￥{{item.split_money}}元</strong>
+								</p>
+								<p>
+									订单数量：{{item.order_count}}
+								</p>
+							</dd> </a>
+						</dl>
+						<div class="m-review" id="user_goods_ka_2" class="swiper-slide tab-content-1">
+							<div class="font_prompt">
+								没有更多会员哦！
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../script/vue.js"></script>
+		<script src="../../js/jquery-1.9.1.min.js"></script>
+		<script src="../../script/swiper.min.js"></script>
+		<script>
+			vm = new Vue({
+				el : "#brandbody",
+				data : {
+					error : 1,
+					content : ''
+				}
+			});
+			apiready = function() {
+				api.parseTapmode();
+				_showProgress();
+				getbrand();
+				_setRefreshHeaderInfo(function(ret, err) {
+					getbrand();
+				})
+			}
+			var mySwiper = new Swiper('.swiper-container', {
+				onSlideChangeEnd : function(swiper) {
+					var j = mySwiper.activeIndex;
+					$('.maple-tab li, .maple-tab2 li, .maple-tab3 li').removeClass('active').eq(j).addClass('active');
+				},
+				observer : true, //修改swiper自己或子元素时，自动初始化swiper
+				observeParents : true,//修改swiper的父元素时，自动初始化swiper
+			})
+			/*列表切换*/
+			$('.maple-tab li, .maple-tab2 li, .maple-tab3 li').on('click', function(e) {
+				e.preventDefault();
+				//得到当前索引
+				var i = $(this).index();
+				$('.maple-tab li, .maple-tab2 li, .maple-tab3 li').removeClass('active').eq(i).addClass('active');
+				mySwiper.slideTo(i, 300, false);
+			});
+			function getbrand() {
+				_ajax(api_url + "v_user_huiyuan.php", "post", ldata, "json", function(ret) {
+					api.hideProgress();
+					if (ret.content) {
+						vm.error = 0;
+						vm.content = ret.content;
+					}
+					api.refreshHeaderLoadDone();
+				});
+			}
+		</script>
+	</body>
+</html>

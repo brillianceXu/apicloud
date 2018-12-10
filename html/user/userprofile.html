@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<style type="text/css"></style>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<link rel="stylesheet" type="text/css" href="../../css/public.css">
+		<link rel="stylesheet" type="text/css" href="../../css/user.css">
+		<script type="text/javascript" src="../../script/api.js"></script>
+		<script type="text/javascript" src="../../js/jquery.js"></script>
+		<script type="text/javascript" src="../../js/user.js"></script>
+		<script type="text/javascript" src="../../script/config.js"></script>
+		<script type="text/javascript" src="../../script/winu-base.js"></script>
+		<script type="text/javascript" src="../../js/common.js"></script>
+		<script type="text/javascript" src="../../js/shopping_flow.js"></script>
+	</head>
+	<body >
+		<div id="addresslistbody"></div>
+		<script>
+			apiready = function() {
+				api.parseTapmode();
+				getaddresslist();
+				_setRefreshHeaderInfo(function(ret, err) {
+					getaddresslist();
+				})
+			}
+
+			function getaddresslist() {
+				_showProgress();
+				_ajax(api_url + "user.php?act=profile", "get", "{}", "json", function(ret) {
+					api.hideProgress();
+					//alert(JSON.stringify(ret.content));
+					document.getElementById('addresslistbody').innerHTML = ret.content;
+					_executeScript(ret.content)
+					api.refreshHeaderLoadDone();
+				});
+			//	initprofile();
+			}
+
+			function initprofile() {
+				$('.name1 ul li').click(function() {
+					$(this).find("input").attr("checked", "checked");
+					$('.name1 ul li').removeClass("on");
+					$(this).addClass("on");
+				})
+			}
+
+			function edit_profile() {
+				var formdata = $("#edit_profile").serialize();
+				_showProgress();
+				_ajax(api_url + "user.php?act=act_edit_profile&" + formdata, "get", {
+				}, "json", function(ret) {
+					api.hideProgress();
+					_alert(JSON.stringify(ret.content));
+					api.refreshHeaderLoadDone();
+				});
+			}
+
+			function edit_password() {
+				var formdata = $("#formPassword").serialize();
+				_showProgress();
+				_ajax(api_url + "user.php?act=act_edit_password&" + formdata, "get", {
+				}, "json", function(ret) {
+					api.hideProgress();
+					if(ret.error == 0){
+						_alert(JSON.stringify(ret.content));
+					}else{
+						_alert(JSON.stringify(ret.message));
+					}
+
+					api.refreshHeaderLoadDone();
+				});
+			}
+
+			function validate_comment() {
+				var content = $("#content_13").val();
+				var error = [];
+				$(".jsstar input").each(function(index) {
+					if (this.value == '0') {
+						if (this.name == 'comment_rank') {
+							error.push('请给描述评分！');
+						};
+						if (this.name == 'server') {
+							error.push('请给服务评分！');
+						};
+						if (this.name == 'send') {
+							error.push('请给发货评分！');
+						};
+						if (this.name == 'shipping') {
+							error.push('请给物流评分！');
+						};
+					}
+				});
+				if (content.trim() == '') {
+					error.push('评价内容不能为空！');
+				}
+				if (error.length > 0) {
+					alert(error);
+				} else {
+					var formdata = $("#edit_profile").serialize();
+					//_alert(formdata);
+					_showProgress();
+					_ajax(api_url + "user.php?act=act_edit_profile&" + formdata, "get", {
+					}, "json", function(ret) {
+						api.hideProgress();
+						_alert(JSON.stringify(ret));
+						api.refreshHeaderLoadDone();
+					});
+				}
+			}
+			/**
+			title 信息标题  url 需要请求的url
+			**/
+			function edit_info(title,url){
+				var validata=arguments[2]?arguments[2]:false;
+					api.openWin({
+						name:'edit_info',
+						url:'edit_info_win.html',
+						pageParam:{
+							validata:validata,
+							title:title,
+							url:url
+						}
+					});
+			}
+
+
+		</script>
+	</body>
+</html>
